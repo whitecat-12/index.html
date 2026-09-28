@@ -262,22 +262,6 @@ i{line-height:1;display:inline-flex}
 .stage-hint i{color:var(--green);font-size:11px}
 .stage-hint.hide{opacity:0}
 
-.stage-ctrl{
-  position:absolute;bottom:14px;right:14px;z-index:6;
-  display:flex;gap:7px;
-}
-.stage-ctrl button{
-  width:38px;height:38px;border-radius:13px;
-  display:grid;place-items:center;font-size:13px;
-  background:rgba(255,255,255,.95);
-  color:var(--green);
-  border:2.5px solid var(--green-border);
-  box-shadow:0 3px 0 rgba(142,229,179,.6);
-  transition:transform .16s var(--ease), box-shadow .16s;
-}
-.stage-ctrl button:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(142,229,179,.6)}
-.stage-ctrl button.off{color:var(--muted-2);border-color:#dbe4df;box-shadow:0 3px 0 #e3ebe7}
-
 /* Loader */
 .stage-load{
   position:absolute;inset:0;z-index:8;
@@ -932,7 +916,6 @@ i{line-height:1;display:inline-flex}
   .mc-sub{font-size:11px}
   .insect-name{font-size:17px}
   .stat b{font-size:13px}
-  .stage-ctrl button{width:34px;height:34px;font-size:12px}
   .stage-reset{width:36px;height:36px;font-size:12px}
 }
 @media (min-width:520px){
@@ -1003,12 +986,6 @@ i{line-height:1;display:inline-flex}
 
             <div class="stage-hint" id="hint3d">
               <i class="fa-solid fa-hand-pointer"></i>Geser untuk memutar
-            </div>
-
-            <div class="stage-ctrl">
-              <button id="btnRotL" aria-label="Putar kiri"><i class="fa-solid fa-rotate-left"></i></button>
-              <button id="btnRotR" aria-label="Putar kanan"><i class="fa-solid fa-rotate-right"></i></button>
-              <button id="btnAuto" aria-label="Auto rotate"><i class="fa-solid fa-pause"></i></button>
             </div>
           </div>
         </div>
@@ -1852,6 +1829,8 @@ i{line-height:1;display:inline-flex}
 const MODEL_URL  = 'serangga.glb';   // <-- taruh file GLB di folder yang sama
 const AUTO_SPIN  = true;             // auto-rotate saat pertama dibuka
 const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
+const MODEL_SIZE = 3.6;              // <-- UKURAN MODEL (makin besar = makin besar)
+const CAM_START  = { x:0, y:0.85, z:3.4 };  // posisi awal kamera
 /* ============================================================ */
 
 (async () => {
@@ -1862,14 +1841,11 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
   const fbEl     = document.getElementById('fb3d');
   const fbTxt    = fbEl.querySelector('span');
   const hintEl   = document.getElementById('hint3d');
-  const ctrlEl   = document.querySelector('.stage-ctrl');
-  const autoBtn  = document.getElementById('btnAuto');
 
   function showFallback(html){
     loadEl.classList.add('hide');
     fbEl.classList.add('show');
     if (html) fbTxt.innerHTML = html;
-    if (ctrlEl) ctrlEl.style.display = 'none';
     hintEl.classList.add('hide');
   }
 
@@ -1906,7 +1882,7 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
   /* ---------- Scene & Camera ---------- */
   const scene  = new THREE.Scene();
   const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-  camera.position.set(0, 1.05, 4.2);
+  camera.position.set(CAM_START.x, CAM_START.y, CAM_START.z);
 
   /* ---------- Lighting ---------- */
   scene.add(new THREE.HemisphereLight(0xffffff, 0xcfeedd, 2.1));
@@ -1928,7 +1904,7 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
   controls.enableDamping   = true;
   controls.dampingFactor   = 0.08;
   controls.enablePan       = false;
-  controls.minDistance     = 1.8;
+  controls.minDistance     = 1.4;
   controls.maxDistance     = 8;
   controls.minPolarAngle   = Math.PI * 0.10;
   controls.maxPolarAngle   = Math.PI * 0.90;
@@ -1960,7 +1936,7 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
     })
   );
   shadowPlane.rotation.x = -Math.PI / 2;
-  shadowPlane.position.y = -1.15;
+  shadowPlane.position.y = -1.35;
   scene.add(shadowPlane);
 
   /* ---------- Pivot (wadah model) ---------- */
@@ -1994,7 +1970,7 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
       model.position.sub(center);
 
       const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      pivot.scale.setScalar(2.3 / maxDim);
+      pivot.scale.setScalar(MODEL_SIZE / maxDim);
 
       if (gltf.animations && gltf.animations.length) {
         mixer = new THREE.AnimationMixer(model);
@@ -2035,7 +2011,6 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
 
   /* ---------- Loop render ---------- */
   const clock = new THREE.Clock();
-  let spinTarget = 0;
 
   function homeActive(){
     const el = document.getElementById('tab-home');
@@ -2048,37 +2023,16 @@ const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
 
     if (mixer) mixer.update(dt);
 
-    pivot.rotation.y += (spinTarget - pivot.rotation.y) * Math.min(1, dt * 5);
-
     controls.update();
 
     if (homeActive()) renderer.render(scene, camera);
   }
   animate();
 
-  /* ---------- Tombol kontrol ---------- */
-  document.getElementById('btnRotL').addEventListener('click', () => {
-    spinTarget -= Math.PI / 3;
-    hintEl.classList.add('hide');
-  });
-  document.getElementById('btnRotR').addEventListener('click', () => {
-    spinTarget += Math.PI / 3;
-    hintEl.classList.add('hide');
-  });
-
-  autoBtn.addEventListener('click', () => {
-    controls.autoRotate = !controls.autoRotate;
-    autoBtn.innerHTML = controls.autoRotate
-      ? '<i class="fa-solid fa-pause"></i>'
-      : '<i class="fa-solid fa-play"></i>';
-    autoBtn.classList.toggle('off', !controls.autoRotate);
-  });
-  if (!AUTO_SPIN) autoBtn.classList.add('off');
-
+  /* ---------- Tombol reset ---------- */
   document.getElementById('btnReset3D').addEventListener('click', () => {
-    camera.position.set(0, 1.05, 4.2);
+    camera.position.set(CAM_START.x, CAM_START.y, CAM_START.z);
     controls.target.set(0, 0, 0);
-    spinTarget = 0;
     pivot.rotation.y = 0;
     controls.update();
     hintEl.classList.remove('hide');
