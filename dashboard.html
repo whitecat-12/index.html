@@ -1498,8 +1498,8 @@ i{line-height:1;display:inline-flex}
 const MODEL_URL  = 'listrik.glb';     // <-- taruh file GLB di folder yang sama
 const AUTO_SPIN  = true;
 const SPIN_SPEED = 1.6;
-const MODEL_SIZE = 3.6;
-const CAM_START  = { x:0, y:0.85, z:3.4 };
+const MODEL_SIZE = 3.0;                // <-- DIPERKECIL dari 3.6 → 3.0
+const CAM_START  = { x:0, y:0.75, z:3.0 }; // <-- kamera sedikit didekatkan
 /* ============================================================ */
 
 (async () => {
@@ -1566,8 +1566,8 @@ const CAM_START  = { x:0, y:0.85, z:3.4 };
   controls.enableDamping   = true;
   controls.dampingFactor   = 0.08;
   controls.enablePan       = false;
-  controls.minDistance     = 1.4;
-  controls.maxDistance     = 8;
+  controls.minDistance     = 1.2;   // <-- bisa zoom lebih dekat
+  controls.maxDistance     = 7;
   controls.minPolarAngle   = Math.PI * 0.10;
   controls.maxPolarAngle   = Math.PI * 0.90;
   controls.autoRotate      = AUTO_SPIN;
@@ -1589,13 +1589,13 @@ const CAM_START  = { x:0, y:0.85, z:3.4 };
     return t;
   }
   const shadowPlane = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.9, 2.9),
+    new THREE.PlaneGeometry(2.4, 2.4),   // <-- shadow menyesuaikan model yg lebih kecil
     new THREE.MeshBasicMaterial({
       map: shadowTexture(), transparent: true, depthWrite: false
     })
   );
   shadowPlane.rotation.x = -Math.PI / 2;
-  shadowPlane.position.y = -1.35;
+  shadowPlane.position.y = -1.15;        // <-- dinaikkan sedikit
   scene.add(shadowPlane);
 
   const pivot = new THREE.Group();
