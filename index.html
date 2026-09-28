@@ -3,10 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-<meta name="theme-color" content="#fff8e7">
+<meta name="theme-color" content="#2563eb">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
-<title>Sartookku — AR Serangga</title>
+<title>MyFisika — Selamat Datang</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -14,54 +14,30 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 
 <style>
-/* ============ TOKENS ============ */
 :root{
-  --bg:#fff8e7;
+  --bg:#eef4ff;
   --surface:#ffffff;
-  --cream:#fff8e7;
-  --text:#1a2b22;
-  --text-2:#3d5245;
-  --muted:#6b8276;
-  --muted-2:#96a8a0;
+  --text:#0f1f3d;
+  --text-2:#334768;
+  --muted:#6b7c96;
 
-  --green:#16a35c;
-  --green-lite:#4dd98a;
-  --green-soft:#d4f5e0;
-  --green-border:#8ee5b3;
+  --blue:#2563eb;
+  --blue-lite:#60a5fa;
+  --blue-soft:#dbeafe;
+  --blue-border:#93c5fd;
 
-  --amber:#e08a1e;
-  --amber-lite:#ffb648;
-  --amber-soft:#ffe8c4;
-  --amber-border:#ffc97a;
+  --purple:#7c3aed;
+  --purple-soft:#ede9fe;
 
-  --blue:#2a74d4;
-  --blue-lite:#6aa6ff;
-  --blue-soft:#d6e6ff;
-  --blue-border:#9cc2ff;
+  --teal:#0d9488;
+  --teal-soft:#ccfbf1;
 
-  --pink:#d84b7a;
-  --pink-lite:#ff8fb0;
-  --pink-soft:#ffdae5;
-  --pink-border:#ffabc2;
+  --amber:#d97706;
+  --amber-soft:#fef3c7;
 
-  --purple:#7c4dd6;
-  --purple-soft:#e8dcff;
-  --purple-border:#c0a4ff;
+  --pink:#db2777;
+  --pink-soft:#fce7f3;
 
-  --orange:#ff6b35;
-  --orange-soft:#ffe0d2;
-  --orange-border:#ffab8a;
-
-  --teal:#00a5a5;
-  --teal-soft:#cff2f2;
-  --teal-border:#7ddcdc;
-
-  --danger:#e05568;
-
-  --r-xl:26px;
-  --r-lg:20px;
-  --r-md:16px;
-  --r-sm:12px;
   --ease:cubic-bezier(.4,0,.2,1);
   --safe-top:env(safe-area-inset-top, 0px);
   --safe-bottom:env(safe-area-inset-bottom, 0px);
@@ -74,2061 +50,492 @@ body{
   background:var(--bg);
   color:var(--text);
   font-family:'Plus Jakarta Sans',system-ui,-apple-system,sans-serif;
-  font-size:15px;
-  line-height:1.5;
   -webkit-font-smoothing:antialiased;
   text-rendering:optimizeLegibility;
 }
 button{font-family:inherit;border:none;background:none;color:inherit;cursor:pointer;font-size:inherit}
 i{line-height:1;display:inline-flex}
 
-/* ============ SHELL ============ */
-.app{
+/* ============ BACKGROUND ============ */
+.splash{
   position:absolute;inset:0;
   display:flex;flex-direction:column;
+  align-items:center;justify-content:space-between;
+  padding:calc(var(--safe-top) + 30px) 26px calc(var(--safe-bottom) + 30px);
   overflow:hidden;
   isolation:isolate;
 }
-.app::before{
+.splash::before{
   content:'';position:absolute;inset:0;z-index:0;
   background:var(--bg);
 }
-.app::after{
+.splash::after{
   content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
   background-image:
-    radial-gradient(circle, var(--green-soft) 40px, transparent 41px),
-    radial-gradient(circle, var(--amber-soft) 30px, transparent 31px),
-    radial-gradient(circle, var(--blue-soft) 35px, transparent 36px),
-    radial-gradient(circle, var(--pink-soft) 25px, transparent 26px),
-    radial-gradient(circle, var(--purple-soft) 28px, transparent 29px);
-  background-size:320px 320px,280px 280px,300px 300px,240px 240px,260px 260px;
-  background-position:-60px 5%,90% 12%,10% 55%,95% 70%,-50px 95%;
+    radial-gradient(circle, var(--blue-soft) 40px, transparent 41px),
+    radial-gradient(circle, var(--purple-soft) 32px, transparent 33px),
+    radial-gradient(circle, var(--teal-soft) 36px, transparent 37px),
+    radial-gradient(circle, var(--amber-soft) 26px, transparent 27px),
+    radial-gradient(circle, var(--pink-soft) 30px, transparent 31px);
+  background-size:340px 340px,300px 300px,320px 320px,260px 260px,280px 280px;
+  background-position:-70px 8%,92% 15%,8% 58%,95% 78%,-60px 92%;
   background-repeat:no-repeat;
-  opacity:.65;
+  opacity:.85;
 }
 
-/* ============ HEADER ============ */
-.header{
-  position:relative;z-index:10;
-  display:flex;align-items:center;justify-content:space-between;
-  padding:calc(var(--safe-top) + 16px) 20px 18px;
-  flex-shrink:0;
+/* ============ FLOATING ORBS (ANIMASI) ============ */
+.orb{
+  position:absolute;border-radius:50%;
+  pointer-events:none;z-index:1;
+  opacity:.55;
+  animation:float 8s ease-in-out infinite;
 }
-.brand{display:flex;align-items:center;gap:12px}
-.brand-mark{
-  width:46px;height:46px;border-radius:16px;
-  display:grid;place-items:center;
-  background:var(--green);
-  color:#ffffff;font-size:19px;
-  border:3px solid #ffffff;
-  box-shadow:0 4px 0 var(--green-border);
-  transform:rotate(-4deg);
+.orb.o1{
+  width:120px;height:120px;
+  background:radial-gradient(circle at 35% 35%, var(--blue-lite), var(--blue));
+  top:8%;left:-30px;
+  filter:blur(2px);
+  animation-delay:0s;
 }
-.brand-name{font-size:20px;font-weight:800;letter-spacing:-.5px;line-height:1.1;color:var(--text)}
-.brand-name b{color:var(--green);font-weight:800}
-.brand-sub{
-  font-size:9.5px;color:var(--green);
-  font-weight:800;letter-spacing:1.5px;margin-top:3px;
-  background:var(--green-soft);
-  display:inline-block;
-  padding:2px 8px;
-  border-radius:6px;
+.orb.o2{
+  width:80px;height:80px;
+  background:radial-gradient(circle at 35% 35%, #c4b5fd, var(--purple));
+  top:22%;right:-20px;
+  filter:blur(1px);
+  animation-delay:-2s;
 }
-.icon-btn{
-  position:relative;
-  width:46px;height:46px;border-radius:16px;
-  display:grid;place-items:center;
-  background:var(--amber-soft);
-  border:2.5px solid var(--amber-border);
-  color:var(--amber);font-size:17px;
-  transition:transform .2s var(--ease);
+.orb.o3{
+  width:140px;height:140px;
+  background:radial-gradient(circle at 35% 35%, #5eead4, var(--teal));
+  bottom:14%;left:-40px;
+  filter:blur(3px);
+  opacity:.4;
+  animation-delay:-4s;
 }
-.icon-btn:active{transform:scale(.9)}
-.dot{
-  position:absolute;top:8px;right:8px;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--pink);
-  border:2px solid #ffffff;
+.orb.o4{
+  width:70px;height:70px;
+  background:radial-gradient(circle at 35% 35%, #fcd34d, var(--amber));
+  bottom:28%;right:-15px;
+  filter:blur(1px);
+  opacity:.5;
+  animation-delay:-6s;
 }
-
-/* ============ MAIN VIEW ============ */
-.main-view{position:relative;z-index:5;flex:1;min-height:0;overflow:hidden}
-
-.tab-panel{
-  position:absolute;inset:0;
-  display:flex;flex-direction:column;
-  opacity:0;pointer-events:none;
-  transition:opacity .3s var(--ease);
-}
-.tab-panel.active{opacity:1;pointer-events:auto}
-
-.scroll{
-  flex:1;min-height:0;
-  overflow-y:auto;
-  padding:0 20px calc(24px + var(--safe-bottom));
-  scrollbar-width:none;
-  -webkit-overflow-scrolling:touch;
-}
-.scroll::-webkit-scrollbar{display:none}
-
-/* ============================================================
-   3D VIEWER (BERANDA) — PUTIH POLOS
-   ============================================================ */
-.viewer-card{
-  position:relative;
-  background:transparent;
-  border:none;
-  border-radius:var(--r-xl);
-  box-shadow:none;
-  padding:0 0 14px;
-  margin-bottom:24px;
-  overflow:visible;
+@keyframes float{
+  0%,100%{transform:translateY(0) translateX(0) scale(1)}
+  33%{transform:translateY(-18px) translateX(10px) scale(1.05)}
+  66%{transform:translateY(10px) translateX(-12px) scale(.95)}
 }
 
-/* --- Stage 3D : putih polos, tanpa gradien, tanpa pola titik --- */
-.stage3d{
-  position:relative;
+/* ============ TOP SECTION ============ */
+.top{
+  position:relative;z-index:5;
   width:100%;
-  aspect-ratio:1 / 0.92;
-  border-radius:var(--r-lg);
-  overflow:hidden;
-  border:none;
-  background:#ffffff;
-  touch-action:none;
-  cursor:grab;
-  z-index:1;
+  display:flex;justify-content:center;
+  padding-top:14px;
 }
-.stage3d:active{cursor:grabbing}
-.stage3d canvas{
-  position:absolute;inset:0;
-  width:100%;height:100%;
-  display:block;
-  z-index:2;
-  touch-action:none;
-}
-
-.stage-corner{
-  position:absolute;width:26px;height:26px;
-  border:3px solid var(--green);opacity:.6;
-  pointer-events:none;z-index:4;
-}
-.stage-corner.tl{top:10px;left:10px;border-right:0;border-bottom:0;border-radius:10px 0 0 0}
-.stage-corner.tr{top:10px;right:10px;border-left:0;border-bottom:0;border-radius:0 10px 0 0}
-.stage-corner.bl{bottom:10px;left:10px;border-right:0;border-top:0;border-radius:0 0 0 10px}
-.stage-corner.br{bottom:10px;right:10px;border-left:0;border-top:0;border-radius:0 0 10px 0}
-
-.stage-tag{
-  position:absolute;top:14px;left:14px;z-index:6;
-  display:inline-flex;align-items:center;gap:7px;
-  padding:6px 11px;border-radius:999px;
-  font-size:9.5px;font-weight:800;letter-spacing:.9px;color:#ffffff;
-  background:var(--green);
+.univ-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:8px 16px;border-radius:999px;
+  background:rgba(255,255,255,.75);
+  backdrop-filter:blur(10px);
+  -webkit-backdrop-filter:blur(10px);
   border:2px solid #ffffff;
-  box-shadow:0 3px 0 var(--green-border);
+  box-shadow:0 4px 14px rgba(37,99,235,.12);
+  font-size:11px;font-weight:800;
+  color:var(--blue);
+  letter-spacing:.5px;
+  text-transform:uppercase;
 }
-.stage-tag .pulse{
-  width:7px;height:7px;border-radius:50%;background:#ffffff;
-  animation:pulse 1.6s ease-in-out infinite;
-}
-@keyframes pulse{
-  0%,100%{opacity:1;box-shadow:0 0 0 0 rgba(255,255,255,.7)}
-  50%{opacity:.75;box-shadow:0 0 0 6px rgba(255,255,255,0)}
+.univ-badge i{
+  font-size:12px;color:var(--blue);
 }
 
-/* Tombol reset mengapung di kanan atas stage */
-.stage-reset{
-  position:absolute;top:14px;right:14px;z-index:6;
-  width:40px;height:40px;border-radius:13px;
-  display:grid;place-items:center;font-size:13px;
-  background:rgba(255,255,255,.95);
-  color:var(--amber);
-  border:2.5px solid var(--amber-border);
-  box-shadow:0 3px 0 rgba(255,201,122,.7);
-  transition:transform .18s var(--ease), box-shadow .18s;
+/* ============ CENTER LOGO ============ */
+.center{
+  position:relative;z-index:5;
+  flex:1;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:22px;
+  width:100%;
 }
-.stage-reset:active{transform:translateY(2px);box-shadow:0 1px 0 rgba(255,201,122,.7)}
-
-.stage-hint{
-  position:absolute;bottom:14px;left:14px;z-index:6;
-  display:inline-flex;align-items:center;gap:7px;
-  padding:7px 12px;border-radius:999px;
-  font-size:10px;font-weight:800;color:var(--text-2);
-  background:rgba(255,255,255,.94);
-  border:2px solid var(--green-border);
-  box-shadow:0 3px 0 rgba(142,229,179,.55);
-  pointer-events:none;
-  transition:opacity .35s var(--ease);
+.logo-wrap{
+  position:relative;
+  width:150px;height:150px;
+  display:grid;place-items:center;
 }
-.stage-hint i{color:var(--green);font-size:11px}
-.stage-hint.hide{opacity:0}
-
-/* Loader */
-.stage-load{
-  position:absolute;inset:0;z-index:8;
-  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;
-  background:rgba(255,255,255,.92);
-  transition:opacity .35s var(--ease), visibility .35s;
+.logo-ring{
+  position:absolute;inset:0;
+  border-radius:50%;
+  border:3px dashed var(--blue-border);
+  animation:spin 18s linear infinite;
 }
-.stage-load.hide{opacity:0;visibility:hidden;pointer-events:none}
-.ring{
-  width:40px;height:40px;border-radius:50%;
-  border:4px solid var(--green-soft);
-  border-top-color:var(--green);
-  animation:spin .9s linear infinite;
+.logo-ring.r2{
+  inset:14px;
+  border:3px solid var(--blue-soft);
+  border-top-color:var(--blue);
+  animation:spin 3s linear infinite reverse;
 }
 @keyframes spin{to{transform:rotate(360deg)}}
-.stage-load span{font-size:11px;font-weight:800;color:var(--muted)}
 
-/* Fallback */
-.stage-fallback{
-  position:absolute;inset:0;z-index:3;
-  display:none;flex-direction:column;align-items:center;justify-content:center;gap:10px;
-  padding:26px 22px;text-align:center;
-}
-.stage-fallback.show{display:flex}
-.stage-fallback .fb-ico{
-  width:82px;height:82px;border-radius:50%;
-  display:grid;place-items:center;
-  font-size:34px;color:#ffffff;
-  background:var(--green);
-  border:4px solid #ffffff;
-  box-shadow:0 5px 0 var(--green-border);
-  animation:floaty 3.6s ease-in-out infinite;
-}
-.stage-fallback b{font-size:12.5px;font-weight:800;color:var(--text)}
-.stage-fallback span{font-size:10.5px;font-weight:600;color:var(--muted);line-height:1.55;max-width:250px}
-.stage-fallback code{
-  font-family:inherit;
-  font-size:10px;font-weight:800;color:var(--green);
-  background:var(--green-soft);
-  padding:2px 6px;border-radius:5px;
-}
-
-/* ============ HERO ============ */
-.hero{
-  position:relative;overflow:hidden;
-  background:var(--green);
-  border:3px solid #ffffff;
-  border-radius:var(--r-xl);
-  padding:22px 20px;
-  margin-bottom:26px;
-  box-shadow:0 6px 0 var(--green-border);
-}
-.hero::before{
-  content:'';position:absolute;
-  top:-40px;right:-40px;
-  width:140px;height:140px;
-  border-radius:50%;
-  background:var(--green-lite);
-  opacity:.5;
-}
-.hero::after{
-  content:'';position:absolute;
-  bottom:-30px;left:-30px;
+.logo-mark{
+  position:relative;
   width:100px;height:100px;
-  border-radius:50%;
-  background:var(--green-lite);
-  opacity:.35;
-}
-.hero-ico{
-  position:absolute;right:8px;bottom:-10px;
-  font-size:100px;color:#ffffff;
-  opacity:.22;
-  transform:rotate(-12deg);
-  z-index:1;
-}
-.hero h2{
-  font-size:20px;font-weight:800;
-  margin-bottom:8px;letter-spacing:-.4px;
-  position:relative;line-height:1.3;color:#ffffff;
-  z-index:2;
-}
-.hero p{
-  font-size:13px;line-height:1.6;
-  color:rgba(255,255,255,.9);
-  max-width:85%;position:relative;font-weight:500;
-  z-index:2;
-}
-
-/* ============ SECTION LABEL ============ */
-.sec-label{
-  display:inline-flex;align-items:center;gap:8px;
-  font-size:11px;font-weight:800;letter-spacing:1.2px;
-  text-transform:uppercase;
-  color:var(--text);
-  margin:0 4px 14px;
-  padding:6px 12px 6px 8px;
-  background:var(--amber-soft);
-  border:2px solid var(--amber-border);
-  border-radius:999px;
-}
-.sec-label i{font-size:11px;color:var(--amber)}
-.sec-label:nth-of-type(2){background:var(--blue-soft);border-color:var(--blue-border)}
-.sec-label:nth-of-type(2) i{color:var(--blue)}
-.sec-label:nth-of-type(3){background:var(--pink-soft);border-color:var(--pink-border)}
-.sec-label:nth-of-type(3) i{color:var(--pink)}
-
-/* ============ CARD GRID ============ */
-.card-grid{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:14px;
-  margin-bottom:26px;
-}
-.menu-card{
-  position:relative;
-  padding:16px 14px;
-  border-radius:var(--r-lg);
-  background:var(--surface);
-  border:3px solid var(--green-border);
-  transition:transform .18s var(--ease);
-  overflow:hidden;
-  display:flex;
-  flex-direction:column;
-  gap:10px;
-  min-height:138px;
-  text-align:left;
-  box-shadow:0 4px 0 var(--green-border);
-}
-.menu-card:nth-child(2){border-color:var(--blue-border);box-shadow:0 4px 0 var(--blue-border)}
-.menu-card:nth-child(3){border-color:var(--amber-border);box-shadow:0 4px 0 var(--amber-border)}
-.menu-card:nth-child(4){border-color:var(--pink-border);box-shadow:0 4px 0 var(--pink-border)}
-.menu-card:nth-child(5){border-color:var(--purple-border);box-shadow:0 4px 0 var(--purple-border)}
-.menu-card:nth-child(6){border-color:var(--orange-border);box-shadow:0 4px 0 var(--orange-border)}
-.menu-card:nth-child(7){border-color:var(--teal-border);box-shadow:0 4px 0 var(--teal-border)}
-
-.menu-card::before{
-  content:'';position:absolute;top:-20px;right:-20px;
-  width:80px;height:80px;border-radius:50%;
-  background:var(--green-soft);pointer-events:none;
-}
-.menu-card:nth-child(2)::before{background:var(--blue-soft)}
-.menu-card:nth-child(3)::before{background:var(--amber-soft)}
-.menu-card:nth-child(4)::before{background:var(--pink-soft)}
-.menu-card:nth-child(5)::before{background:var(--purple-soft)}
-.menu-card:nth-child(6)::before{background:var(--orange-soft)}
-.menu-card:nth-child(7)::before{background:var(--teal-soft)}
-
-.menu-card::after{
-  content:'';position:absolute;top:14px;right:14px;
-  width:10px;height:10px;border-radius:50%;
-  background:var(--green);z-index:2;
-}
-.menu-card:nth-child(2)::after{background:var(--blue)}
-.menu-card:nth-child(3)::after{background:var(--amber)}
-.menu-card:nth-child(4)::after{background:var(--pink)}
-.menu-card:nth-child(5)::after{background:var(--purple)}
-.menu-card:nth-child(6)::after{background:var(--orange)}
-.menu-card:nth-child(7)::after{background:var(--teal)}
-
-.menu-card:active{transform:translateY(3px);box-shadow:0 1px 0 var(--green-border);}
-.menu-card:nth-child(2):active{box-shadow:0 1px 0 var(--blue-border)}
-.menu-card:nth-child(3):active{box-shadow:0 1px 0 var(--amber-border)}
-.menu-card:nth-child(4):active{box-shadow:0 1px 0 var(--pink-border)}
-.menu-card:nth-child(5):active{box-shadow:0 1px 0 var(--purple-border)}
-.menu-card:nth-child(6):active{box-shadow:0 1px 0 var(--orange-border)}
-.menu-card:nth-child(7):active{box-shadow:0 1px 0 var(--teal-border)}
-
-.mc-icon{
-  width:46px;height:46px;flex-shrink:0;
-  border-radius:14px;display:grid;place-items:center;
-  font-size:18px;background:var(--green);color:#ffffff;
-  border:2.5px solid #ffffff;
-  box-shadow:0 3px 0 var(--green-border);
-  transform:rotate(-3deg);
-  position:relative;z-index:1;
-}
-.mc-icon.amber{background:var(--amber);box-shadow:0 3px 0 var(--amber-border)}
-.mc-icon.blue{background:var(--blue);box-shadow:0 3px 0 var(--blue-border)}
-.mc-icon.pink{background:var(--pink);box-shadow:0 3px 0 var(--pink-border)}
-.mc-icon.purple{background:var(--purple);box-shadow:0 3px 0 var(--purple-border)}
-.mc-icon.orange{background:var(--orange);box-shadow:0 3px 0 var(--orange-border)}
-.mc-icon.teal{background:var(--teal);box-shadow:0 3px 0 var(--teal-border)}
-
-.mc-title{
-  font-size:13.5px;font-weight:800;line-height:1.35;
-  letter-spacing:-.2px;position:relative;z-index:1;color:var(--text);
-}
-.mc-sub{
-  font-size:11.5px;color:var(--muted);line-height:1.45;
-  position:relative;z-index:1;font-weight:600;
-  overflow:hidden;display:-webkit-box;
-  -webkit-line-clamp:2;-webkit-box-orient:vertical;
-}
-.mc-arrow{
-  position:absolute;bottom:12px;right:12px;
-  width:24px;height:24px;border-radius:50%;
+  border-radius:28px;
   display:grid;place-items:center;
-  background:var(--green-soft);color:var(--green);
-  font-size:10px;transition:transform .2s var(--ease);
-}
-.menu-card:nth-child(2) .mc-arrow{background:var(--blue-soft);color:var(--blue)}
-.menu-card:nth-child(3) .mc-arrow{background:var(--amber-soft);color:var(--amber)}
-.menu-card:nth-child(4) .mc-arrow{background:var(--pink-soft);color:var(--pink)}
-.menu-card:nth-child(5) .mc-arrow{background:var(--purple-soft);color:var(--purple)}
-.menu-card:nth-child(6) .mc-arrow{background:var(--orange-soft);color:var(--orange)}
-.menu-card:nth-child(7) .mc-arrow{background:var(--teal-soft);color:var(--teal)}
-.menu-card:active .mc-arrow{transform:translateX(3px)}
-
-/* ============ CHIPS ============ */
-.chips{
-  display:flex;gap:10px;
-  padding:0 20px 18px;
-  overflow-x:auto;scrollbar-width:none;flex-shrink:0;
-}
-.chips::-webkit-scrollbar{display:none}
-.chip{
-  flex-shrink:0;padding:10px 16px;border-radius:999px;
-  background:var(--surface);
-  border:2.5px solid var(--green-border);
-  color:var(--text);font-size:12.5px;font-weight:800;
-  white-space:nowrap;transition:all .22s var(--ease);
-  display:inline-flex;align-items:center;gap:8px;
-  min-height:42px;box-shadow:0 3px 0 var(--green-border);
-}
-.chip i{font-size:12px;color:var(--green)}
-.chip:nth-child(2){border-color:var(--blue-border);box-shadow:0 3px 0 var(--blue-border)}
-.chip:nth-child(2) i{color:var(--blue)}
-.chip:nth-child(3){border-color:var(--amber-border);box-shadow:0 3px 0 var(--amber-border)}
-.chip:nth-child(3) i{color:var(--amber)}
-.chip:nth-child(4){border-color:var(--pink-border);box-shadow:0 3px 0 var(--pink-border)}
-.chip:nth-child(4) i{color:var(--pink)}
-.chip:nth-child(5){border-color:var(--purple-border);box-shadow:0 3px 0 var(--purple-border)}
-.chip:nth-child(5) i{color:var(--purple)}
-.chip.active{background:var(--green);border-color:var(--green);color:#ffffff;box-shadow:0 3px 0 var(--green-border);}
-.chip.active i{color:#ffffff}
-.chip:active{transform:translateY(2px);box-shadow:0 1px 0 var(--green-border)}
-
-/* ============ AR TAB ============ */
-.ar-wrap{flex:1;min-height:0;display:grid;place-items:center;padding:10px 20px;}
-.ar-stage{position:relative;width:100%;max-width:320px;aspect-ratio:1/1;max-height:100%;}
-.corner{position:absolute;width:48px;height:48px;border:4px solid var(--green);}
-.corner.tl{top:0;left:0;border-right:0;border-bottom:0;border-radius:22px 0 0 0}
-.corner.tr{top:0;right:0;border-left:0;border-bottom:0;border-radius:0 22px 0 0}
-.corner.bl{bottom:0;left:0;border-right:0;border-top:0;border-radius:0 0 0 22px}
-.corner.br{bottom:0;right:0;border-left:0;border-top:0;border-radius:0 0 22px 0}
-.corner::after{content:'';position:absolute;width:10px;height:10px;border-radius:50%;background:var(--amber);}
-.corner.tl::after{top:6px;left:6px}
-.corner.tr::after{top:6px;right:6px}
-.corner.bl::after{bottom:6px;left:6px}
-.corner.br::after{bottom:6px;right:6px}
-
-.scanline{
-  position:absolute;left:20px;right:20px;height:3px;
-  border-radius:3px;background:var(--green);
-  animation:scan 2.6s ease-in-out infinite;
-}
-@keyframes scan{
-  0%,100%{top:20px;opacity:0}
-  12%,88%{opacity:1}
-  50%{top:calc(100% - 22px)}
-}
-
-.ar-creature{
-  position:absolute;top:50%;left:50%;
-  width:150px;height:150px;margin:-75px 0 0 -75px;
-  border-radius:50%;display:grid;place-items:center;
-  font-size:64px;color:#ffffff;background:var(--green);
+  background:var(--blue);
+  color:#ffffff;font-size:44px;
   border:5px solid #ffffff;
-  box-shadow:0 6px 0 var(--green-border), 0 0 0 4px var(--green-soft);
-  animation:floaty 3.4s ease-in-out infinite;
-  transition:opacity .25s, transform .25s;
+  box-shadow:
+    0 8px 0 var(--blue-border),
+    0 14px 30px rgba(37,99,235,.35);
+  transform:rotate(-6deg);
+  animation:bounce 3s ease-in-out infinite;
+  z-index:2;
 }
-@keyframes floaty{
-  0%,100%{transform:translateY(0) rotate(-3deg)}
-  50%{transform:translateY(-14px) rotate(3deg)}
+.logo-mark::after{
+  content:'';position:absolute;inset:-6px;
+  border-radius:34px;
+  border:2px solid var(--blue-soft);
+  animation:ping 2.5s ease-out infinite;
 }
-
-.pill{
-  position:absolute;top:16px;right:16px;
-  display:flex;align-items:center;gap:8px;
-  padding:8px 14px;border-radius:999px;
-  background:var(--green);border:2.5px solid #ffffff;
-  font-size:10.5px;font-weight:800;letter-spacing:.8px;color:#ffffff;
-  z-index:3;box-shadow:0 3px 0 var(--green-border);
+@keyframes bounce{
+  0%,100%{transform:rotate(-6deg) translateY(0)}
+  50%{transform:rotate(-6deg) translateY(-8px)}
 }
-.pill .pulse{width:8px;height:8px;border-radius:50%;background:#ffffff;animation:pulse 1.6s ease-in-out infinite;}
-
-/* ============ AR SHEET ============ */
-.sheet{
-  flex-shrink:0;background:var(--surface);
-  border-top:4px solid var(--green);
-  border-radius:28px 28px 0 0;
-  padding:16px 20px calc(18px + var(--safe-bottom));
-  position:relative;
-}
-.sheet::before{
-  content:'';position:absolute;top:-14px;left:50%;transform:translateX(-50%);
-  width:42px;height:6px;border-radius:6px;background:var(--green);
-}
-.insect-head{display:flex;align-items:flex-start;gap:14px;margin-bottom:16px}
-.insect-head .t{flex:1;min-width:0}
-.insect-name{font-size:19px;font-weight:800;letter-spacing:-.3px;line-height:1.25;margin-bottom:4px;color:var(--text);}
-.insect-latin{font-size:12px;font-style:italic;color:var(--muted);margin-bottom:12px;font-weight:600}
-.tags{display:flex;gap:8px;flex-wrap:wrap}
-.tag{
-  font-size:10.5px;font-weight:800;padding:5px 12px;border-radius:999px;
-  background:var(--green-soft);border:2px solid var(--green-border);
-  color:var(--green);display:inline-flex;align-items:center;gap:6px;
-}
-.tag.amber{background:var(--amber-soft);border-color:var(--amber-border);color:var(--amber)}
-
-.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px;}
-.stat{
-  background:var(--green-soft);border:2.5px solid var(--green-border);
-  border-radius:var(--r-md);padding:12px 6px;text-align:center;
-}
-.stat:nth-child(2){background:var(--blue-soft);border-color:var(--blue-border)}
-.stat:nth-child(3){background:var(--amber-soft);border-color:var(--amber-border)}
-.stat b{display:block;font-size:14px;font-weight:800;margin-bottom:3px;letter-spacing:-.2px;color:var(--text)}
-.stat span{font-size:10px;color:var(--text-2);letter-spacing:.2px;font-weight:700}
-
-.actions{display:flex;gap:12px}
-.btn{
-  flex:1;height:54px;border-radius:16px;
-  display:inline-flex;align-items:center;justify-content:center;gap:9px;
-  font-size:13.5px;font-weight:800;
-  transition:transform .18s var(--ease);
-  border:3px solid #ffffff;
-}
-.btn:active{transform:translateY(3px)}
-.btn-ghost{background:var(--amber);color:#ffffff;box-shadow:0 4px 0 var(--amber-border);}
-.btn-ghost:active{box-shadow:0 1px 0 var(--amber-border)}
-.btn-solid{background:var(--green);color:#ffffff;box-shadow:0 4px 0 var(--green-border);}
-.btn-solid:active{box-shadow:0 1px 0 var(--green-border)}
-
-/* ============ KOLEKSI ============ */
-.grid2{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
-.coll{
-  position:relative;padding:18px 12px;border-radius:var(--r-lg);
-  background:var(--surface);border:3px solid var(--green-border);
-  box-shadow:0 4px 0 var(--green-border);text-align:center;
-  transition:transform .18s var(--ease);overflow:hidden;
-}
-.coll:nth-child(2){border-color:var(--blue-border);box-shadow:0 4px 0 var(--blue-border)}
-.coll:nth-child(3){border-color:var(--amber-border);box-shadow:0 4px 0 var(--amber-border)}
-.coll:nth-child(4){border-color:var(--pink-border);box-shadow:0 4px 0 var(--pink-border)}
-.coll:nth-child(5){border-color:var(--purple-border);box-shadow:0 4px 0 var(--purple-border)}
-.coll:nth-child(6){border-color:var(--orange-border);box-shadow:0 4px 0 var(--orange-border)}
-.coll:nth-child(7){border-color:var(--teal-border);box-shadow:0 4px 0 var(--teal-border)}
-.coll:active{transform:translateY(3px)}
-.coll:nth-child(1):active{box-shadow:0 1px 0 var(--green-border)}
-.coll:nth-child(2):active{box-shadow:0 1px 0 var(--blue-border)}
-.coll:nth-child(3):active{box-shadow:0 1px 0 var(--amber-border)}
-.coll:nth-child(4):active{box-shadow:0 1px 0 var(--pink-border)}
-.coll:nth-child(5):active{box-shadow:0 1px 0 var(--purple-border)}
-.coll:nth-child(6):active{box-shadow:0 1px 0 var(--orange-border)}
-.coll:nth-child(7):active{box-shadow:0 1px 0 var(--teal-border)}
-
-.coll-ico{
-  width:62px;height:62px;margin:0 auto 12px;border-radius:50%;
-  display:grid;place-items:center;font-size:26px;color:#ffffff;
-  background:var(--green);border:3px solid #ffffff;
-  box-shadow:0 4px 0 var(--green-border);transform:rotate(-3deg);
-}
-.coll:nth-child(2) .coll-ico{background:var(--blue);box-shadow:0 4px 0 var(--blue-border)}
-.coll:nth-child(3) .coll-ico{background:var(--amber);box-shadow:0 4px 0 var(--amber-border)}
-.coll:nth-child(4) .coll-ico{background:var(--pink);box-shadow:0 4px 0 var(--pink-border)}
-.coll:nth-child(5) .coll-ico{background:var(--purple);box-shadow:0 4px 0 var(--purple-border)}
-.coll:nth-child(6) .coll-ico{background:var(--orange);box-shadow:0 4px 0 var(--orange-border)}
-.coll:nth-child(7) .coll-ico{background:var(--teal);box-shadow:0 4px 0 var(--teal-border)}
-
-.coll-name{font-size:12.5px;font-weight:800;line-height:1.3;margin-bottom:3px;color:var(--text)}
-.coll-latin{font-size:10px;font-style:italic;color:var(--muted-2);font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-
-.badge{
-  position:absolute;top:12px;right:12px;width:24px;height:24px;border-radius:50%;
-  display:grid;place-items:center;font-size:10px;
-  background:var(--green);color:#ffffff;border:2px solid #ffffff;
-}
-.coll.locked{opacity:.55}
-.coll.locked .coll-ico{background:var(--muted-2);box-shadow:0 4px 0 rgba(150,168,160,.4);}
-.coll.locked .badge{background:var(--muted-2);font-size:11px}
-.coll.locked .coll-name{color:var(--muted-2)}
-.coll.locked{border-color:#d8dfdb;box-shadow:0 4px 0 #d8dfdb}
-
-/* ============ PROFIL ============ */
-.profile{
-  border-radius:var(--r-xl);padding:26px 20px 20px;text-align:center;
-  background:var(--green);border:3px solid #ffffff;margin-bottom:22px;
-  position:relative;overflow:hidden;box-shadow:0 6px 0 var(--green-border);
-}
-.profile::before{
-  content:'';position:absolute;top:-40px;left:-40px;width:120px;height:120px;
-  border-radius:50%;background:var(--green-lite);opacity:.4;
-}
-.profile::after{
-  content:'';position:absolute;bottom:-50px;right:-50px;width:150px;height:150px;
-  border-radius:50%;background:var(--green-lite);opacity:.3;
-}
-.avatar{
-  width:88px;height:88px;margin:0 auto 14px;border-radius:50%;
-  display:grid;place-items:center;font-size:36px;color:var(--green);
-  background:#ffffff;border:4px solid var(--green);
-  box-shadow:0 4px 0 rgba(0,0,0,.1);position:relative;z-index:1;transform:rotate(-4deg);
-}
-.p-name{font-size:20px;font-weight:800;margin-bottom:4px;letter-spacing:-.3px;color:#ffffff;position:relative;z-index:1}
-.p-mail{font-size:12px;color:rgba(255,255,255,.85);margin-bottom:18px;position:relative;z-index:1;font-weight:600}
-.p-stats{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  padding-top:18px;border-top:2px dashed rgba(255,255,255,.4);
-  position:relative;z-index:1;
-}
-.p-stats b{display:block;font-size:22px;font-weight:800;color:#ffffff;margin-bottom:3px;letter-spacing:-.3px}
-.p-stats span{font-size:10.5px;color:rgba(255,255,255,.85);font-weight:700}
-
-.danger{
-  width:100%;height:56px;border-radius:16px;
-  display:inline-flex;align-items:center;justify-content:center;gap:10px;
-  font-size:13.5px;font-weight:800;
-  background:var(--pink-soft);border:3px solid var(--pink-border);
-  color:var(--pink);transition:transform .18s var(--ease);
-  margin-top:4px;box-shadow:0 4px 0 var(--pink-border);
-}
-.danger:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-border)}
-
-/* ============ BOTTOM NAV ============ */
-.nav{
-  position:relative;z-index:40;flex-shrink:0;
-  display:flex;align-items:flex-end;justify-content:space-around;
-  padding:10px 8px calc(10px + var(--safe-bottom));
-  background:var(--surface);border-top:3px solid var(--green);
-}
-.nav-btn{
-  flex:1;max-width:82px;display:flex;flex-direction:column;align-items:center;gap:5px;
-  padding:8px 0 5px;color:var(--muted-2);
-  font-size:10px;font-weight:800;border-radius:14px;
-  transition:color .22s;position:relative;
-}
-.nav-btn i{font-size:20px;transition:transform .25s var(--ease)}
-.nav-btn.active{color:var(--green)}
-.nav-btn.active i{transform:translateY(-2px)}
-.nav-btn.active::before{
-  content:'';position:absolute;top:-12px;left:50%;transform:translateX(-50%);
-  width:26px;height:4px;border-radius:0 0 4px 4px;background:var(--green);
+@keyframes ping{
+  0%{transform:scale(.95);opacity:1}
+  100%{transform:scale(1.35);opacity:0}
 }
 
-.nav-ar{flex:0 0 auto;max-width:none;padding:0}
-.ar-fab{
-  width:64px;height:64px;border-radius:50%;display:grid;place-items:center;
-  font-size:24px;color:#ffffff;background:var(--green);
-  border:4px solid #ffffff;box-shadow:0 5px 0 var(--green-border);
-  margin-top:-28px;transition:transform .22s var(--ease), box-shadow .22s;
+.brand{
+  text-align:center;
+  animation:fadeUp .8s var(--ease) both;
+  animation-delay:.15s;
 }
-.nav-ar:active .ar-fab{transform:translateY(3px);box-shadow:0 2px 0 var(--green-border)}
-.nav-ar span{font-size:10px;margin-top:6px;color:var(--muted-2);font-weight:800}
-.nav-ar.active span{color:var(--green)}
+.brand-name{
+  font-size:36px;font-weight:800;
+  letter-spacing:-1.2px;line-height:1.05;
+  color:var(--text);margin-bottom:10px;
+}
+.brand-name b{
+  color:var(--blue);font-weight:800;
+  position:relative;display:inline-block;
+}
+.brand-name b::after{
+  content:'';position:absolute;
+  bottom:-2px;left:0;right:0;
+  height:6px;border-radius:6px;
+  background:var(--blue-soft);
+  z-index:-1;
+}
+.brand-tag{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:6px 14px;border-radius:999px;
+  background:#ffffff;
+  border:2px solid var(--blue-border);
+  color:var(--blue);
+  font-size:11px;font-weight:800;
+  letter-spacing:1.5px;
+  box-shadow:0 3px 0 var(--blue-border);
+}
+.brand-tag i{font-size:12px}
 
-/* ============ DETAIL SCREENS ============ */
-.screen{
-  position:absolute;inset:0;z-index:60;
+.brand-desc{
+  max-width:300px;
+  text-align:center;
+  font-size:13px;line-height:1.65;
+  color:var(--text-2);font-weight:500;
+  animation:fadeUp .8s var(--ease) both;
+  animation-delay:.28s;
+}
+
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(14px)}
+  to{opacity:1;transform:translateY(0)}
+}
+
+/* ============ LOADING BAR ============ */
+.loading{
+  position:relative;z-index:5;
+  width:100%;max-width:240px;
+  margin-top:6px;
+  animation:fadeUp .8s var(--ease) both;
+  animation-delay:.42s;
+}
+.load-bar{
+  width:100%;height:6px;
+  background:rgba(37,99,235,.12);
+  border-radius:999px;
+  overflow:hidden;
+  box-shadow:inset 0 1px 2px rgba(37,99,235,.08);
+}
+.load-fill{
+  height:100%;width:0%;
+  border-radius:999px;
+  background:linear-gradient(90deg, var(--blue), var(--blue-lite));
+  animation:load 4.6s ease-in-out forwards;
+  box-shadow:0 0 12px rgba(37,99,235,.5);
+}
+@keyframes load{
+  0%{width:0%}
+  25%{width:32%}
+  55%{width:58%}
+  80%{width:86%}
+  100%{width:100%}
+}
+.load-text{
+  margin-top:10px;
+  text-align:center;
+  font-size:10.5px;font-weight:800;
+  letter-spacing:1.3px;
+  color:var(--muted);
+  text-transform:uppercase;
+}
+
+/* ============ BOTTOM: CREDITS ============ */
+.bottom{
+  position:relative;z-index:5;
+  width:100%;
   display:flex;flex-direction:column;
-  background:var(--bg);transform:translateX(100%);
-  transition:transform .36s var(--ease);overflow:hidden;
-}
-.screen.active{transform:translateX(0)}
-.screen::before{
-  content:'';position:absolute;inset:0;z-index:0;pointer-events:none;
-  background-image:
-    radial-gradient(circle, var(--green-soft) 30px, transparent 31px),
-    radial-gradient(circle, var(--amber-soft) 25px, transparent 26px),
-    radial-gradient(circle, var(--blue-soft) 28px, transparent 29px),
-    radial-gradient(circle, var(--pink-soft) 22px, transparent 23px);
-  background-size:300px 300px, 260px 260px, 280px 280px, 240px 240px;
-  background-position:-50px 0, 90% 15%, 5% 60%, 95% 85%;
-  background-repeat:no-repeat;opacity:.55;
+  align-items:center;
+  gap:18px;
+  animation:fadeUp .8s var(--ease) both;
+  animation-delay:.55s;
 }
 
-.screen-head{
-  flex-shrink:0;position:relative;z-index:1;
-  display:flex;align-items:center;gap:14px;
-  padding:calc(var(--safe-top) + 14px) 20px 16px;
+/* ============================================================
+   CREDITS — SIMPEL & ELEGAN
+   ============================================================ */
+.credits{
+  width:100%;max-width:320px;
+  display:flex;flex-direction:column;
+  align-items:center;
+  gap:12px;
 }
-.back{
-  width:46px;height:46px;flex-shrink:0;border-radius:16px;
-  display:grid;place-items:center;background:var(--amber);
-  border:3px solid #ffffff;color:#ffffff;font-size:16px;
-  box-shadow:0 4px 0 var(--amber-border);transition:transform .2s var(--ease);
-}
-.back:active{transform:translateY(3px);box-shadow:0 1px 0 var(--amber-border)}
-.screen-head h1{font-size:18px;font-weight:800;letter-spacing:-.3px;line-height:1.25;color:var(--text)}
-.screen-head p{font-size:12px;color:var(--muted);margin-top:3px;font-weight:600}
 
-.screen-body{
-  flex:1;min-height:0;position:relative;z-index:1;
-  overflow-y:auto;padding:0 20px calc(32px + var(--safe-bottom));
-  scrollbar-width:none;-webkit-overflow-scrolling:touch;
+.credits-label{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:5px 12px;border-radius:999px;
+  background:rgba(255,255,255,.7);
+  border:1.5px solid rgba(147,197,253,.6);
+  font-size:9.5px;font-weight:800;
+  letter-spacing:1.3px;text-transform:uppercase;
+  color:var(--blue);
 }
-.screen-body::-webkit-scrollbar{display:none}
+.credits-label i{font-size:10px}
 
-.display{
-  position:relative;width:100%;aspect-ratio:16/11;
-  border-radius:26px;margin-bottom:20px;overflow:hidden;
+/* Avatar grup — bulat berjejer dengan inisial */
+.credit-avatars{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.avatar{
+  width:44px;height:44px;
+  border-radius:50%;
   display:grid;place-items:center;
-  background:var(--green-soft);border:4px solid var(--green);
+  color:#ffffff;
+  font-size:14px;font-weight:800;
+  letter-spacing:-.3px;
+  border:3px solid #ffffff;
+  box-shadow:0 4px 12px rgba(15,31,61,.18);
+  margin-left:-12px;
+  position:relative;
+  transition:transform .25s var(--ease);
 }
-.display .mesh{
-  position:absolute;inset:0;
-  background-image:radial-gradient(circle, var(--green-border) 2px, transparent 2.5px);
-  background-size:22px 22px;opacity:.5;
-  mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
-  -webkit-mask-image:radial-gradient(ellipse at center,#000 20%,transparent 75%);
-}
-.display .c{position:absolute;width:24px;height:24px;border:3px solid #ffffff;opacity:.9}
-.display .c.tl{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:12px 0 0 0}
-.display .c.tr{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 12px 0 0}
-.display .c.bl{bottom:14px;left:14px;border-right:0;border-top:0;border-radius:0 0 0 12px}
-.display .c.br{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 12px 0}
+.avatar:first-child{margin-left:0}
+.avatar:hover{transform:translateY(-4px) scale(1.08);z-index:3}
 
-.figure{
-  position:relative;z-index:2;width:120px;height:120px;border-radius:50%;
-  display:grid;place-items:center;font-size:48px;color:#ffffff;
-  background:var(--green);border:5px solid #ffffff;
-  box-shadow:0 6px 0 var(--green-border);
-  animation:floaty 3.6s ease-in-out infinite;
-}
-.figure.amber{background:var(--amber);box-shadow:0 6px 0 var(--amber-border)}
-.figure.blue{background:var(--blue);box-shadow:0 6px 0 var(--blue-border)}
-.figure.pink{background:var(--pink);box-shadow:0 6px 0 var(--pink-border)}
-.figure.purple{background:var(--purple);box-shadow:0 6px 0 var(--purple-border)}
-.figure.teal{background:var(--teal);box-shadow:0 6px 0 var(--teal-border)}
-.figure.orange{background:var(--orange);box-shadow:0 6px 0 var(--orange-border)}
+.avatar.a1{background:linear-gradient(135deg, var(--blue), var(--blue-lite));z-index:1}
+.avatar.a2{background:linear-gradient(135deg, var(--purple), #c4b5fd);z-index:2}
+.avatar.a3{background:linear-gradient(135deg, var(--teal), #5eead4);z-index:1}
 
-.card{
-  background:var(--surface);border:3px solid var(--green-border);
-  border-radius:var(--r-lg);padding:18px;margin-bottom:14px;
-  box-shadow:0 4px 0 var(--green-border);
+/* Nama digabung jadi satu baris */
+.credit-names{
+  font-size:12px;
+  font-weight:700;
+  color:var(--text-2);
+  text-align:center;
+  letter-spacing:.1px;
+  line-height:1.5;
 }
-.card:nth-of-type(2){border-color:var(--blue-border);box-shadow:0 4px 0 var(--blue-border)}
-.card:nth-of-type(3){border-color:var(--amber-border);box-shadow:0 4px 0 var(--amber-border)}
+.credit-names b{
+  color:var(--text);
+  font-weight:800;
+}
 
-.card-title{
-  display:flex;align-items:center;gap:10px;
-  font-size:14px;font-weight:800;color:var(--green);
-  margin-bottom:14px;letter-spacing:-.1px;
+/* Copyright super tipis */
+.copyright{
+  font-size:9.5px;
+  color:var(--muted);
+  font-weight:600;
+  letter-spacing:.4px;
+  text-align:center;
+  opacity:.75;
 }
-.card-title i{font-size:14px}
-.card-title .bullet{
-  width:22px;height:22px;border-radius:50%;
-  background:var(--green);color:#ffffff;
-  display:grid;place-items:center;font-size:10px;flex-shrink:0;
-}
-.card:nth-of-type(2) .card-title{color:var(--blue)}
-.card:nth-of-type(2) .card-title .bullet{background:var(--blue)}
-.card:nth-of-type(3) .card-title{color:var(--amber)}
-.card:nth-of-type(3) .card-title .bullet{background:var(--amber)}
-
-.card p{font-size:13px;line-height:1.75;color:var(--text-2);font-weight:500}
-.card p strong{color:var(--text);font-weight:800}
-.card p em{color:var(--green);font-style:normal;font-weight:800;
-  background:var(--green-soft);padding:1px 6px;border-radius:5px;}
-
-.info{display:flex;flex-direction:column;gap:14px}
-.info-item{display:flex;gap:13px;align-items:flex-start}
-.info-ico{
-  width:42px;height:42px;flex-shrink:0;border-radius:13px;
-  display:grid;place-items:center;font-size:16px;color:#ffffff;
-  background:var(--green);border:2.5px solid #ffffff;
-  box-shadow:0 3px 0 var(--green-border);
-}
-.info-item:nth-child(2) .info-ico{background:var(--blue);box-shadow:0 3px 0 var(--blue-border)}
-.info-item:nth-child(3) .info-ico{background:var(--amber);box-shadow:0 3px 0 var(--amber-border)}
-.info-item:nth-child(4) .info-ico{background:var(--pink);box-shadow:0 3px 0 var(--pink-border)}
-.info-item:nth-child(5) .info-ico{background:var(--purple);box-shadow:0 3px 0 var(--purple-border)}
-.info-item:nth-child(6) .info-ico{background:var(--orange);box-shadow:0 3px 0 var(--orange-border)}
-.info-item b{display:block;font-size:13px;font-weight:800;margin-bottom:3px;color:var(--text)}
-.info-item span{font-size:12px;line-height:1.55;color:var(--muted);font-weight:500}
-
-.steps{display:flex;align-items:center;gap:6px}
-.step{
-  flex:1;min-width:0;padding:14px 6px;border-radius:16px;
-  text-align:center;background:var(--green-soft);
-  border:3px solid var(--green-border);
-}
-.step:nth-of-type(1){background:var(--amber-soft);border-color:var(--amber-border)}
-.step:nth-of-type(2){background:var(--orange-soft);border-color:var(--orange-border)}
-.step:nth-of-type(3){background:var(--blue-soft);border-color:var(--blue-border)}
-.step:nth-of-type(4){background:var(--pink-soft);border-color:var(--pink-border)}
-.step i{font-size:22px;display:block;margin-bottom:7px;color:var(--green)}
-.step:nth-of-type(1) i{color:var(--amber)}
-.step:nth-of-type(2) i{color:var(--orange)}
-.step:nth-of-type(3) i{color:var(--blue)}
-.step:nth-of-type(4) i{color:var(--pink)}
-.step span{font-size:10.5px;font-weight:800;line-height:1.3;display:block;letter-spacing:-.1px;color:var(--text)}
-.arrow{color:var(--muted-2);font-size:12px;flex-shrink:0}
-
-.parts{display:flex;flex-direction:column;gap:11px}
-.part{
-  display:flex;gap:14px;align-items:flex-start;
-  padding:14px 15px;border-radius:16px;
-  background:var(--green-soft);border:2.5px solid var(--green-border);
-}
-.part.amber{background:var(--amber-soft);border-color:var(--amber-border)}
-.part.blue{background:var(--blue-soft);border-color:var(--blue-border)}
-.part-ico{
-  width:44px;height:44px;flex-shrink:0;border-radius:13px;
-  display:grid;place-items:center;font-size:18px;color:#ffffff;
-  background:var(--green);border:2.5px solid #ffffff;
-}
-.part.amber .part-ico{background:var(--amber)}
-.part.blue .part-ico{background:var(--blue)}
-.part b{display:block;font-size:13.5px;font-weight:800;margin-bottom:6px;color:var(--text)}
-.part ul{list-style:none;display:flex;flex-direction:column;gap:5px}
-.part li{font-size:11.5px;color:var(--text-2);display:flex;align-items:center;gap:9px;line-height:1.45;font-weight:600}
-.part li i{font-size:10px;color:var(--green);flex-shrink:0}
-.part.amber li i{color:var(--amber)}
-.part.blue li i{color:var(--blue)}
-
-.fact{
-  display:flex;gap:14px;align-items:flex-start;
-  padding:16px;border-radius:var(--r-lg);
-  background:var(--amber-soft);border:3px solid var(--amber-border);
-  margin-bottom:14px;box-shadow:0 4px 0 var(--amber-border);
-}
-.fact i{font-size:22px;color:var(--amber);flex-shrink:0;margin-top:2px}
-.fact b{display:block;font-size:10.5px;font-weight:800;letter-spacing:1.3px;color:var(--amber);margin-bottom:6px;}
-.fact p{font-size:12.5px;line-height:1.6;color:var(--text-2);font-weight:600}
-.fact p strong{color:var(--text);font-weight:800}
-
-.chain{display:flex;align-items:center;gap:8px;overflow-x:auto;scrollbar-width:none;padding:6px 0;}
-.chain::-webkit-scrollbar{display:none}
-.node{flex-shrink:0;min-width:82px;padding:14px 10px;border-radius:16px;text-align:center;border:2.5px solid;}
-.node i{font-size:22px;display:block;margin-bottom:7px}
-.node b{display:block;font-size:11px;font-weight:800;margin-bottom:3px;color:var(--text)}
-.node span{font-size:9px;font-weight:700}
-.node.p{background:var(--green-soft);border-color:var(--green-border)}
-.node.p i{color:var(--green)}
-.node.p span{color:var(--green)}
-.node.k1{background:var(--blue-soft);border-color:var(--blue-border)}
-.node.k1 i{color:var(--blue)}
-.node.k1 span{color:var(--blue)}
-.node.k2{background:var(--amber-soft);border-color:var(--amber-border)}
-.node.k2 i{color:var(--amber)}
-.node.k2 span{color:var(--amber)}
-.node.k3{background:var(--pink-soft);border-color:var(--pink-border)}
-.node.k3 i{color:var(--pink)}
-.node.k3 span{color:var(--pink)}
 
 /* ============ RESPONSIVE ============ */
-@media (max-width:360px){
-  .menu-card{padding:14px 12px;min-height:124px}
-  .mc-title{font-size:12.5px}
-  .mc-sub{font-size:11px}
-  .insect-name{font-size:17px}
-  .stat b{font-size:13px}
-  .stage-reset{width:36px;height:36px;font-size:12px}
-}
-@media (min-width:520px){
-  .card-grid{gap:16px}
-  .menu-card{min-height:148px;padding:18px 16px}
-  .grid2{gap:16px}
-  .stage3d{aspect-ratio:16/11}
-}
 @media (max-height:680px){
-  .display{aspect-ratio:16/10}
-  .ar-creature{width:130px;height:130px;margin:-65px 0 0 -65px;font-size:56px}
-  .hero{padding:18px;margin-bottom:20px}
-  .hero h2{font-size:17px}
-  .stage3d{aspect-ratio:1/0.8}
+  .logo-wrap{width:120px;height:120px}
+  .logo-mark{width:84px;height:84px;font-size:36px;border-radius:24px}
+  .brand-name{font-size:30px}
+  .brand-desc{font-size:12px;max-width:280px}
+  .center{gap:16px}
+  .avatar{width:40px;height:40px;font-size:13px}
+}
+
+@media (min-width:520px){
+  .brand-name{font-size:42px}
+  .logo-wrap{width:170px;height:170px}
+  .logo-mark{width:116px;height:116px;font-size:50px}
+  .brand-desc{font-size:14px;max-width:360px}
+  .credits{max-width:360px}
+  .avatar{width:48px;height:48px;font-size:15px}
+}
+
+/* Fade out saat pindah */
+.splash.leaving{
+  animation:fadeOut .55s var(--ease) forwards;
+}
+@keyframes fadeOut{
+  to{opacity:0;transform:scale(1.04)}
 }
 </style>
 </head>
-
 <body>
-<div class="app">
 
-  <header class="header">
+<div class="splash" id="splash">
+
+  <!-- Ornamen bulat melayang -->
+  <div class="orb o1"></div>
+  <div class="orb o2"></div>
+  <div class="orb o3"></div>
+  <div class="orb o4"></div>
+
+  <!-- ===== TOP : Badge ===== -->
+  <div class="top">
+    <div class="univ-badge">
+      <i class="fa-solid fa-graduation-cap"></i>
+      Media Pembelajaran Fisika
+    </div>
+  </div>
+
+  <!-- ===== CENTER : Logo & Brand ===== -->
+  <div class="center">
+
+    <div class="logo-wrap">
+      <div class="logo-ring"></div>
+      <div class="logo-ring r2"></div>
+      <div class="logo-mark">
+        <i class="fa-solid fa-bolt"></i>
+      </div>
+    </div>
+
     <div class="brand">
-      <div class="brand-mark"><i class="fa-solid fa-leaf"></i></div>
-      <div>
-        <div class="brand-name">Sartoo<b>kku</b></div>
-        <div class="brand-sub">AR SERANGGA</div>
+      <div class="brand-name">My<b>Fisika</b></div>
+      <div class="brand-tag">
+        <i class="fa-solid fa-atom"></i>
+        BELAJAR LISTRIK
       </div>
     </div>
-    <button class="icon-btn" aria-label="Notifikasi">
-      <i class="fa-regular fa-bell"></i>
-      <span class="dot"></span>
-    </button>
-  </header>
 
-  <main class="main-view">
+    <p class="brand-desc">
+      Jelajahi dunia kelistrikan lewat visual 3D interaktif — dari alur listrik hingga rangkaian seri &amp; paralel.
+    </p>
 
-    <!-- ================= HOME ================= -->
-    <section class="tab-panel active" id="tab-home">
-      <div class="scroll">
-
-        <!-- ====== 3D VIEWER (putih polos) ====== -->
-        <div class="viewer-card">
-          <div class="stage3d" id="stage3d">
-            <div class="stage-corner tl"></div>
-            <div class="stage-corner tr"></div>
-            <div class="stage-corner bl"></div>
-            <div class="stage-corner br"></div>
-
-            <canvas id="canvas3d"></canvas>
-
-            <div class="stage-tag"><span class="pulse"></span>REAL-TIME 3D</div>
-
-            <button class="stage-reset" id="btnReset3D" aria-label="Reset kamera">
-              <i class="fa-solid fa-rotate-left"></i>
-            </button>
-
-            <div class="stage-fallback" id="fb3d">
-              <div class="fb-ico"><i class="fa-solid fa-bug"></i></div>
-              <b>Model 3D belum dimuat</b>
-              <span>Letakkan file <code>serangga.glb</code> di folder yang sama dengan file HTML ini.</span>
-            </div>
-
-            <div class="stage-load" id="load3d">
-              <div class="ring"></div>
-              <span>Memuat model 3D…</span>
-            </div>
-
-            <div class="stage-hint" id="hint3d">
-              <i class="fa-solid fa-hand-pointer"></i>Geser untuk memutar
-            </div>
-          </div>
-        </div>
-        <!-- ====== /3D VIEWER ====== -->
-
-        <div class="hero">
-          <i class="fa-solid fa-bug hero-ico"></i>
-          <h2>Halo, Petualang! 👋</h2>
-          <p>Jelajahi dunia serangga lewat Augmented Reality. Pilih materi di bawah untuk mulai belajar.</p>
-        </div>
-
-        <div class="sec-label"><i class="fa-solid fa-microscope"></i> Anatomi &amp; Fisiologi</div>
-        <div class="card-grid">
-          <div class="menu-card" data-target="scr-anatomi">
-            <div class="mc-icon"><i class="fa-solid fa-bug"></i></div>
-            <div class="mc-title">Anatomi Serangga</div>
-            <div class="mc-sub">Bagian tubuh &amp; fungsinya</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-trakea">
-            <div class="mc-icon blue"><i class="fa-solid fa-wind"></i></div>
-            <div class="mc-title">Trakea Serangga</div>
-            <div class="mc-sub">Jalur pernafasan</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-pencernaan">
-            <div class="mc-icon amber"><i class="fa-solid fa-utensils"></i></div>
-            <div class="mc-title">Pergerakan Makanan</div>
-            <div class="mc-sub">Sistem pencernaan</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-mata">
-            <div class="mc-icon pink"><i class="fa-solid fa-eye"></i></div>
-            <div class="mc-title">Mata Majemuk</div>
-            <div class="mc-sub">Struktur &amp; cara kerja</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-
-        <div class="sec-label"><i class="fa-solid fa-arrows-rotate"></i> Metamorfosis</div>
-        <div class="card-grid">
-          <div class="menu-card" data-target="scr-metamorfosis-sempurna">
-            <div class="mc-icon purple"><i class="fa-solid fa-egg"></i></div>
-            <div class="mc-title">Metamorfosis Sempurna</div>
-            <div class="mc-sub">Telur → Larva → Pupa → Dewasa</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-metamorfosis-tidak">
-            <div class="mc-icon orange"><i class="fa-solid fa-arrows-spin"></i></div>
-            <div class="mc-title">Metamorfosis Tidak Sempurna</div>
-            <div class="mc-sub">Telur → Nimfa → Dewasa</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-
-        <div class="sec-label"><i class="fa-solid fa-seedling"></i> Ekologi &amp; Spesies</div>
-        <div class="card-grid" style="margin-bottom:0">
-          <div class="menu-card" data-target="scr-rantai">
-            <div class="mc-icon teal"><i class="fa-solid fa-link"></i></div>
-            <div class="mc-title">Rantai Makanan</div>
-            <div class="mc-sub">Alur energi ekosistem</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-papilionidae">
-            <div class="mc-icon pink"><i class="fa-solid fa-feather-pointed"></i></div>
-            <div class="mc-title">Famili Papilionidae</div>
-            <div class="mc-sub">Papilio polytes</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-morfologi">
-            <div class="mc-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <div class="mc-title">Morfologi Kupu-Kupu</div>
-            <div class="mc-sub">Head · Thorax · Abdomen</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
+    <div class="loading">
+      <div class="load-bar">
+        <div class="load-fill"></div>
       </div>
-    </section>
-
-    <!-- BELAJAR -->
-    <section class="tab-panel" id="tab-belajar">
-      <div class="chips">
-        <button class="chip active"><i class="fa-solid fa-layer-group"></i>Semua</button>
-        <button class="chip"><i class="fa-solid fa-bug"></i>Anatomi</button>
-        <button class="chip"><i class="fa-solid fa-wind"></i>Fisiologi</button>
-        <button class="chip"><i class="fa-solid fa-arrows-rotate"></i>Metamorfosis</button>
-        <button class="chip"><i class="fa-solid fa-seedling"></i>Ekologi</button>
-      </div>
-      <div class="scroll">
-        <div class="card-grid" style="margin-bottom:0">
-          <div class="menu-card" data-target="scr-anatomi">
-            <div class="mc-icon"><i class="fa-solid fa-bug"></i></div>
-            <div class="mc-title">Anatomi Serangga</div>
-            <div class="mc-sub">Kepala, dada, perut &amp; fungsinya</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-trakea">
-            <div class="mc-icon blue"><i class="fa-solid fa-wind"></i></div>
-            <div class="mc-title">Sistem Trakea</div>
-            <div class="mc-sub">Jalur pernafasan serangga</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-pencernaan">
-            <div class="mc-icon amber"><i class="fa-solid fa-utensils"></i></div>
-            <div class="mc-title">Pergerakan Makanan</div>
-            <div class="mc-sub">Sistem pencernaan serangga</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-mata">
-            <div class="mc-icon pink"><i class="fa-solid fa-eye"></i></div>
-            <div class="mc-title">Mata Majemuk</div>
-            <div class="mc-sub">Struktur ommatidia &amp; cara kerja</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-metamorfosis-sempurna">
-            <div class="mc-icon purple"><i class="fa-solid fa-egg"></i></div>
-            <div class="mc-title">Metamorfosis Sempurna</div>
-            <div class="mc-sub">Telur → Larva → Pupa → Dewasa</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-metamorfosis-tidak">
-            <div class="mc-icon orange"><i class="fa-solid fa-arrows-spin"></i></div>
-            <div class="mc-title">Metamorfosis Tidak Sempurna</div>
-            <div class="mc-sub">Telur → Nimfa → Dewasa</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-rantai">
-            <div class="mc-icon teal"><i class="fa-solid fa-link"></i></div>
-            <div class="mc-title">Rantai Makanan</div>
-            <div class="mc-sub">Alur energi dalam ekosistem</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-papilionidae">
-            <div class="mc-icon pink"><i class="fa-solid fa-feather-pointed"></i></div>
-            <div class="mc-title">Famili Papilionidae</div>
-            <div class="mc-sub">Papilio polytes &amp; kerabatnya</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-          <div class="menu-card" data-target="scr-morfologi">
-            <div class="mc-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
-            <div class="mc-title">Morfologi Kupu-Kupu</div>
-            <div class="mc-sub">Head, Thorax, Abdomen lengkap</div>
-            <span class="mc-arrow"><i class="fa-solid fa-arrow-right"></i></span>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- AR -->
-    <section class="tab-panel" id="tab-ar">
-      <div class="ar-wrap">
-        <div class="ar-stage">
-          <div class="corner tl"></div>
-          <div class="corner tr"></div>
-          <div class="corner bl"></div>
-          <div class="corner br"></div>
-          <div class="scanline"></div>
-          <div class="pill"><span class="pulse"></span>AR AKTIF</div>
-          <div class="ar-creature" id="arCreature"><i class="fa-solid fa-feather-pointed"></i></div>
-        </div>
-      </div>
-
-      <div class="sheet">
-        <div class="insect-head">
-          <div class="t">
-            <div class="insect-name" id="arName">Kupu-Kupu Monarch</div>
-            <div class="insect-latin" id="arLatin">Danaus plexippus</div>
-            <div class="tags">
-              <span class="tag"><i class="fa-solid fa-leaf"></i>Herbivora</span>
-              <span class="tag amber"><i class="fa-solid fa-shield-halved"></i>Dilindungi</span>
-            </div>
-          </div>
-          <button class="icon-btn" aria-label="Info"><i class="fa-solid fa-circle-info"></i></button>
-        </div>
-
-        <div class="stats">
-          <div class="stat"><b id="arWingspan">12 cm</b><span>Rentang Sayap</span></div>
-          <div class="stat"><b id="arLife">2–6 mgg</b><span>Umur</span></div>
-          <div class="stat"><b id="arAccuracy">98%</b><span>Akurasi</span></div>
-        </div>
-
-        <div class="actions">
-          <button class="btn btn-ghost" id="btnSave"><i class="fa-regular fa-bookmark"></i>Simpan</button>
-          <button class="btn btn-solid" id="btnCapture"><i class="fa-solid fa-camera"></i>Tangkap AR</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- KOLEKSI -->
-    <section class="tab-panel" id="tab-koleksi">
-      <div class="scroll">
-        <div class="hero" style="margin-bottom:22px">
-          <i class="fa-solid fa-book-open hero-ico"></i>
-          <h2>Koleksi Serangga 📖</h2>
-          <p>Kamu sudah menemukan 6 dari 12 serangga. Terus jelajahi untuk melengkapi koleksimu!</p>
-        </div>
-
-        <div class="grid2">
-          <div class="coll">
-            <span class="badge"><i class="fa-solid fa-check"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-feather-pointed"></i></div>
-            <div class="coll-name">Kupu-Kupu</div>
-            <div class="coll-latin">Danaus plexippus</div>
-          </div>
-          <div class="coll">
-            <span class="badge"><i class="fa-solid fa-check"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-bug"></i></div>
-            <div class="coll-name">Lebah Madu</div>
-            <div class="coll-latin">Apis mellifera</div>
-          </div>
-          <div class="coll">
-            <span class="badge"><i class="fa-solid fa-check"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-circle-dot"></i></div>
-            <div class="coll-name">Kepik Merah</div>
-            <div class="coll-latin">Coccinella</div>
-          </div>
-          <div class="coll">
-            <span class="badge"><i class="fa-solid fa-check"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-worm"></i></div>
-            <div class="coll-name">Belalang</div>
-            <div class="coll-latin">Oxya chinensis</div>
-          </div>
-          <div class="coll">
-            <span class="badge"><i class="fa-solid fa-check"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-bug"></i></div>
-            <div class="coll-name">Semut Hitam</div>
-            <div class="coll-latin">Camponotus</div>
-          </div>
-          <div class="coll">
-            <span class="badge"><i class="fa-solid fa-check"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-spider"></i></div>
-            <div class="coll-name">Laba-laba</div>
-            <div class="coll-latin">Lycosidae</div>
-          </div>
-
-          <div class="coll locked">
-            <span class="badge"><i class="fa-solid fa-lock"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-bug"></i></div>
-            <div class="coll-name">Nyamuk</div>
-            <div class="coll-latin">Aedes aegypti</div>
-          </div>
-          <div class="coll locked">
-            <span class="badge"><i class="fa-solid fa-lock"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-spider"></i></div>
-            <div class="coll-name">Kalajengking</div>
-            <div class="coll-latin">Scorpiones</div>
-          </div>
-          <div class="coll locked">
-            <span class="badge"><i class="fa-solid fa-lock"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-worm"></i></div>
-            <div class="coll-name">Ulat Daun</div>
-            <div class="coll-latin">Lepidoptera</div>
-          </div>
-          <div class="coll locked">
-            <span class="badge"><i class="fa-solid fa-lock"></i></span>
-            <div class="coll-ico"><i class="fa-solid fa-bug"></i></div>
-            <div class="coll-name">Kumbang</div>
-            <div class="coll-latin">Coleoptera</div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- PROFIL -->
-    <section class="tab-panel" id="tab-profil">
-      <div class="scroll">
-        <div class="profile">
-          <div class="avatar"><i class="fa-solid fa-user-astronaut"></i></div>
-          <div class="p-name">Petualang Muda</div>
-          <div class="p-mail">petualang@sartookku.id</div>
-          <div class="p-stats">
-            <div><b>6</b><span>Koleksi</span></div>
-            <div><b>9</b><span>Materi</span></div>
-            <div><b>3</b><span>Badge</span></div>
-          </div>
-        </div>
-
-        <div class="card-grid">
-          <div class="menu-card" style="min-height:104px">
-            <div class="mc-icon amber"><i class="fa-solid fa-trophy"></i></div>
-            <div class="mc-title">Pencapaian</div>
-          </div>
-          <div class="menu-card" style="min-height:104px">
-            <div class="mc-icon blue"><i class="fa-solid fa-chart-simple"></i></div>
-            <div class="mc-title">Statistik Belajar</div>
-          </div>
-          <div class="menu-card" style="min-height:104px">
-            <div class="mc-icon pink"><i class="fa-solid fa-star"></i></div>
-            <div class="mc-title">Favorit</div>
-          </div>
-          <div class="menu-card" style="min-height:104px">
-            <div class="mc-icon purple"><i class="fa-solid fa-bell"></i></div>
-            <div class="mc-title">Notifikasi</div>
-          </div>
-          <div class="menu-card" style="min-height:104px">
-            <div class="mc-icon teal"><i class="fa-solid fa-gear"></i></div>
-            <div class="mc-title">Pengaturan</div>
-          </div>
-          <div class="menu-card" style="min-height:104px">
-            <div class="mc-icon blue"><i class="fa-solid fa-circle-question"></i></div>
-            <div class="mc-title">Bantuan &amp; Dukungan</div>
-          </div>
-        </div>
-
-        <button class="danger"><i class="fa-solid fa-arrow-right-from-bracket"></i>Keluar</button>
-      </div>
-    </section>
-
-  </main>
-
-  <nav class="nav">
-    <button class="nav-btn active" data-tab="tab-home">
-      <i class="fa-solid fa-house"></i><span>Beranda</span>
-    </button>
-    <button class="nav-btn" data-tab="tab-belajar">
-      <i class="fa-solid fa-book-open"></i><span>Belajar</span>
-    </button>
-    <button class="nav-btn nav-ar" data-tab="tab-ar">
-      <div class="ar-fab"><i class="fa-solid fa-camera"></i></div>
-      <span>AR</span>
-    </button>
-    <button class="nav-btn" data-tab="tab-koleksi">
-      <i class="fa-solid fa-layer-group"></i><span>Koleksi</span>
-    </button>
-    <button class="nav-btn" data-tab="tab-profil">
-      <i class="fa-solid fa-user"></i><span>Profil</span>
-    </button>
-  </nav>
-
-  <!-- SCREEN 1 : ANATOMI -->
-  <div class="screen" id="scr-anatomi">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Anatomi Serangga</h1>
-        <p>Bagian tubuh &amp; fungsinya</p>
-      </div>
+      <div class="load-text" id="loadText">Menyiapkan aplikasi…</div>
     </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR 3D</div>
-        <div class="figure"><i class="fa-solid fa-bug"></i></div>
-      </div>
 
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-1"></i></span>Tiga Bagian Utama Tubuh</div>
-        <div class="parts">
-          <div class="part">
-            <div class="part-ico"><i class="fa-solid fa-crosshairs"></i></div>
-            <div>
-              <b>1. Kepala (Head)</b>
-              <ul>
-                <li><i class="fa-solid fa-check"></i>Antena</li>
-                <li><i class="fa-solid fa-check"></i>Mata majemuk</li>
-                <li><i class="fa-solid fa-check"></i>Mulut</li>
-              </ul>
-            </div>
-          </div>
-          <div class="part amber">
-            <div class="part-ico"><i class="fa-solid fa-dumbbell"></i></div>
-            <div>
-              <b>2. Dada (Thorax)</b>
-              <ul>
-                <li><i class="fa-solid fa-check"></i>3 pasang kaki</li>
-                <li><i class="fa-solid fa-check"></i>2 pasang sayap</li>
-                <li><i class="fa-solid fa-check"></i>Otot penerbangan</li>
-              </ul>
-            </div>
-          </div>
-          <div class="part blue">
-            <div class="part-ico"><i class="fa-solid fa-water"></i></div>
-            <div>
-              <b>3. Perut (Abdomen)</b>
-              <ul>
-                <li><i class="fa-solid fa-check"></i>Sistem pencernaan</li>
-                <li><i class="fa-solid fa-check"></i>Reproduksi</li>
-                <li><i class="fa-solid fa-check"></i>Spirakel</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fact">
-        <i class="fa-solid fa-lightbulb"></i>
-        <div>
-          <b>TAHUKAH KAMU?</b>
-          <p>Semua serangga memiliki <strong>6 kaki</strong> dan tubuh terbagi tiga. Itulah ciri khas kelas <em>Insecta</em>!</p>
-        </div>
-      </div>
-    </div>
   </div>
 
-  <!-- SCREEN 2 : TRAKEA -->
-  <div class="screen" id="scr-trakea">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Sistem Trakea</h1>
-        <p>Jalur pernafasan serangga</p>
+  <!-- ===== BOTTOM : Credit Simpel ===== -->
+  <div class="bottom">
+
+    <div class="credits">
+
+      <div class="credits-label">
+        <i class="fa-solid fa-heart"></i>
+        Dikembangkan oleh
       </div>
+
+      <!-- Avatar bulat berjejer dengan inisial nama -->
+      <div class="credit-avatars">
+        <div class="avatar a1" title="Masrifah">M</div>
+        <div class="avatar a2" title="Iqbal Limatahu">IL</div>
+        <div class="avatar a3" title="Nurfatimah Sugrah">NS</div>
+      </div>
+
+      <!-- Nama digabung satu baris -->
+      <div class="credit-names">
+        <b>Masrifah</b> · <b>Iqbal Limatahu</b> · <b>Nurfatimah Sugrah</b>
+      </div>
+
+      <div class="copyright">© 2025 MyFisika · All rights reserved</div>
+
     </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR ANIMASI</div>
-        <div class="figure blue"><i class="fa-solid fa-wind"></i></div>
-      </div>
 
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-route"></i></span>Alur Pernafasan</div>
-        <div class="steps">
-          <div class="step"><i class="fa-solid fa-circle-dot"></i><span>Spirakel</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-wind"></i><span>Trakea</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-diagram-project"></i><span>Trakeola</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-microscope"></i><span>Sel</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-book"></i></span>Penjelasan</div>
-        <p>
-          <strong>Trakea</strong> adalah sistem pernafasan serangga berupa tabung bercabang.
-          Udara masuk melalui <em>spirakel</em>, lalu mengalir ke trakea → trakeola → langsung ke sel-sel tubuh.
-        </p>
-        <p style="margin-top:12px">
-          <strong>Oksigen dihantarkan langsung ke sel tanpa perantara darah!</strong>
-        </p>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 3 : PENCERNAAN -->
-  <div class="screen" id="scr-pencernaan">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Pergerakan Makanan</h1>
-        <p>Sistem pencernaan serangga</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR ANIMASI</div>
-        <div class="figure amber"><i class="fa-solid fa-utensils"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-list"></i></span>Urutan Pencernaan</div>
-        <div class="info">
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-tooth"></i></div>
-            <div><b>Mulut</b><span>Makanan dikunyah oleh mandibula</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-route"></i></div>
-            <div><b>Esophagus</b><span>Saluran menuju tembolok</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-jar"></i></div>
-            <div><b>Tembolok (Crop)</b><span>Penyimpanan sementara</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-gears"></i></div>
-            <div><b>Lambung (Gizzard)</b><span>Menggiling makanan</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-flask"></i></div>
-            <div><b>Usus (Midgut)</b><span>Penyerapan nutrisi</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-door-open"></i></div>
-            <div><b>Anus</b><span>Sisa dikeluarkan</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 4 : MATA MAJEMUK -->
-  <div class="screen" id="scr-mata">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Mata Majemuk</h1>
-        <p>Struktur &amp; cara kerja</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR MIKROSKOPIK</div>
-        <div class="figure pink"><i class="fa-solid fa-eye"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-eye"></i></span>Struktur Mata Majemuk</div>
-        <p>
-          Mata majemuk tersusun dari <strong>ribuan unit kecil bernama <em>ommatidia</em></strong>.
-          Setiap ommatidia adalah "mata kecil" dengan lensa sendiri.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-star"></i></span>Keunggulan</div>
-        <div class="info">
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-bolt"></i></div>
-            <div><b>Deteksi Gerakan Cepat</b><span>Hingga 300 frame per detik</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-rainbow"></i></div>
-            <div><b>Melihat Sinar UV</b><span>Cahaya ultraviolet yang tak terlihat manusia</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-globe"></i></div>
-            <div><b>Sudut Pandang Luas</b><span>Hampir 360°</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fact">
-        <i class="fa-solid fa-eye"></i>
-        <div>
-          <b>FAKTA UNIK</b>
-          <p>Capung memiliki hingga <strong>30.000 ommatidia</strong> per mata!</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 5 : METAMORFOSIS SEMPURNA -->
-  <div class="screen" id="scr-metamorfosis-sempurna">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Metamorfosis Sempurna</h1>
-        <p>Holometabola</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR SIKLUS HIDUP</div>
-        <div class="figure purple"><i class="fa-solid fa-arrows-rotate"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-4"></i></span>4 Tahap Metamorfosis</div>
-        <div class="steps">
-          <div class="step"><i class="fa-solid fa-egg"></i><span>Telur</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-worm"></i><span>Larva</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-circle-half-stroke"></i><span>Pupa</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-feather-pointed"></i><span>Dewasa</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-book"></i></span>Penjelasan Tahap</div>
-        <div class="info">
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-egg"></i></div>
-            <div><b>Telur</b><span>Diletakkan di daun sumber makanan larva</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-worm"></i></div>
-            <div><b>Larva (Ulat)</b><span>Fase makan aktif, sering berganti kulit</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-circle-half-stroke"></i></div>
-            <div><b>Pupa (Kepompong)</b><span>Fase istirahat, perubahan bentuk total</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-feather-pointed"></i></div>
-            <div><b>Dewasa (Imago)</b><span>Bentuk sempurna dengan sayap</span></div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fact">
-        <i class="fa-solid fa-microscope"></i>
-        <div>
-          <b>CONTOH HEWAN</b>
-          <p>Kupu-kupu · Lebah · Kumbang · Lalat · Nyamuk · Semut</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 6 : METAMORFOSIS TIDAK SEMPURNA -->
-  <div class="screen" id="scr-metamorfosis-tidak">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Metamorfosis Tidak Sempurna</h1>
-        <p>Hemimetabola</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR SIKLUS HIDUP</div>
-        <div class="figure orange"><i class="fa-solid fa-arrows-spin"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-3"></i></span>3 Tahap Metamorfosis</div>
-        <div class="steps">
-          <div class="step"><i class="fa-solid fa-egg"></i><span>Telur</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-bug"></i><span>Nimfa</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="step"><i class="fa-solid fa-bug"></i><span>Dewasa</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-key"></i></span>Perbedaan Kunci</div>
-        <p>
-          Pada metamorfosis tidak sempurna, <strong>nimfa</strong> sudah mirip dewasanya,
-          hanya <em>lebih kecil dan belum punya sayap sempurna</em>.
-          Tidak ada fase <strong>pupa/kepompong</strong>!
-        </p>
-      </div>
-
-      <div class="fact">
-        <i class="fa-solid fa-microscope"></i>
-        <div>
-          <b>CONTOH HEWAN</b>
-          <p>Belalang · Kecoak · Jangkrik · Capung · Kutu daun</p>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 7 : RANTAI MAKANAN -->
-  <div class="screen" id="scr-rantai">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Rantai Makanan</h1>
-        <p>Alur energi ekosistem</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR EKOSISTEM</div>
-        <div class="figure teal"><i class="fa-solid fa-link"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-link"></i></span>Alur Rantai Makanan</div>
-        <div class="chain">
-          <div class="node p"><i class="fa-solid fa-leaf"></i><b>Daun</b><span>Produsen</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="node k1"><i class="fa-solid fa-worm"></i><b>Ulat</b><span>Konsumen I</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="node k2"><i class="fa-solid fa-dove"></i><b>Burung</b><span>Konsumen II</span></div>
-          <i class="fa-solid fa-arrow-right arrow"></i>
-          <div class="node k3"><i class="fa-solid fa-crow"></i><b>Elang</b><span>Konsumen III</span></div>
-        </div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-users"></i></span>Peran dalam Rantai</div>
-        <div class="info">
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-seedling"></i></div>
-            <div><b>Produsen</b><span>Membuat makanan sendiri lewat fotosintesis</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-utensils"></i></div>
-            <div><b>Konsumen</b><span>Memakan makhluk hidup lain (I, II, III)</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-recycle"></i></div>
-            <div><b>Pengurai</b><span>Menguraikan jasad (bakteri &amp; jamur)</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 8 : PAPILIONIDAE -->
-  <div class="screen" id="scr-papilionidae">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Famili Papilionidae</h1>
-        <p>Papilio polytes</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR SPESIMEN</div>
-        <div class="figure pink"><i class="fa-solid fa-feather-pointed"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-circle-info"></i></span>Tentang Papilionidae</div>
-        <p>
-          <strong>Papilionidae</strong> adalah famili kupu-kupu berukuran besar yang dikenal sebagai
-          <em>"swallowtail butterflies"</em> karena banyak spesiesnya memiliki ekor memanjang di sayap belakang.
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-star"></i></span>Papilio polytes</div>
-        <p>
-          <strong>Papilio polytes</strong> (Common Mormon) tersebar luas di Asia. Betinanya memiliki beberapa
-          <em>morph / forms</em> — ada yang menyerupai spesies beracun (<em>Batesian mimicry</em>) untuk menghindari predator!
-        </p>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-list-check"></i></span>Ciri Khas Famili</div>
-        <div class="info">
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-ruler-horizontal"></i></div>
-            <div><b>Ukuran Besar</b><span>Rentang sayap 7–12 cm</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-palette"></i></div>
-            <div><b>Warna Cerah</b><span>Hitam, kuning, merah, hijau metalik</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-feather"></i></div>
-            <div><b>Ekor Sayap</b><span>Tonjolan seperti ekor burung walet</span></div>
-          </div>
-          <div class="info-item">
-            <div class="info-ico"><i class="fa-solid fa-jet-fighter-up"></i></div>
-            <div><b>Penerbang Kuat</b><span>Terbang tinggi dan cepat</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- SCREEN 9 : MORFOLOGI -->
-  <div class="screen" id="scr-morfologi">
-    <div class="screen-head">
-      <button class="back" data-back><i class="fa-solid fa-chevron-left"></i></button>
-      <div>
-        <h1>Morfologi Kupu-Kupu</h1>
-        <p>Head · Thorax · Abdomen</p>
-      </div>
-    </div>
-    <div class="screen-body">
-      <div class="display">
-        <div class="mesh"></div>
-        <div class="c tl"></div><div class="c tr"></div><div class="c bl"></div><div class="c br"></div>
-        <div class="pill"><span class="pulse"></span>AR ANATOMI 3D</div>
-        <div class="figure pink"><i class="fa-solid fa-feather-pointed"></i></div>
-      </div>
-
-      <div class="card">
-        <div class="card-title"><span class="bullet"><i class="fa-solid fa-bug"></i></span>Tiga Segmen Utama</div>
-        <div class="parts">
-          <div class="part">
-            <div class="part-ico"><i class="fa-solid fa-crosshairs"></i></div>
-            <div>
-              <b>HEAD (Kepala)</b>
-              <ul>
-                <li><i class="fa-solid fa-eye"></i>Mata majemuk — penglihatan luas</li>
-                <li><i class="fa-solid fa-satellite-dish"></i>Antena — penciuman &amp; keseimbangan</li>
-                <li><i class="fa-solid fa-spiral"></i>Probosis — menghisap nektar</li>
-              </ul>
-            </div>
-          </div>
-          <div class="part amber">
-            <div class="part-ico"><i class="fa-solid fa-dumbbell"></i></div>
-            <div>
-              <b>THORAX (Dada)</b>
-              <ul>
-                <li><i class="fa-solid fa-shoe-prints"></i>3 pasang kaki — berjalan &amp; menempel</li>
-                <li><i class="fa-solid fa-feather"></i>2 pasang sayap — terbang</li>
-                <li><i class="fa-solid fa-bolt"></i>Otot penerbangan — sangat kuat</li>
-              </ul>
-            </div>
-          </div>
-          <div class="part blue">
-            <div class="part-ico"><i class="fa-solid fa-water"></i></div>
-            <div>
-              <b>ABDOMEN (Perut)</b>
-              <ul>
-                <li><i class="fa-solid fa-leaf"></i>Saluran pencernaan — memproses nektar</li>
-                <li><i class="fa-solid fa-egg"></i>Organ reproduksi — menghasilkan telur</li>
-                <li><i class="fa-solid fa-wind"></i>Spirakel — lubang pernafasan</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <div class="fact">
-        <i class="fa-solid fa-wand-magic-sparkles"></i>
-        <div>
-          <b>KEUNIKAN</b>
-          <p>Probosis kupu-kupu bisa <strong>digulung</strong> seperti spring saat tidak dipakai!</p>
-        </div>
-      </div>
-    </div>
   </div>
 
 </div>
 
-<!-- ============================================================
-     LIBRARY 3D (Three.js)
-     ============================================================ -->
-<script type="importmap">
-{
-  "imports": {
-    "three": "https://unpkg.com/three@0.161.0/build/three.module.js",
-    "three/addons/": "https://unpkg.com/three@0.161.0/examples/jsm/"
-  }
-}
-</script>
-
-<script type="module">
-/* ============================================================
-   KONFIGURASI MODEL 3D  —  UBAH DI SINI
-   ============================================================ */
-const MODEL_URL  = 'serangga.glb';   // <-- taruh file GLB di folder yang sama
-const AUTO_SPIN  = true;             // auto-rotate saat pertama dibuka
-const SPIN_SPEED = 1.6;              // kecepatan auto-rotate
-const MODEL_SIZE = 3.6;              // <-- UKURAN MODEL (makin besar = makin besar)
-const CAM_START  = { x:0, y:0.85, z:3.4 };  // posisi awal kamera
-/* ============================================================ */
-
-(async () => {
-  const stageEl  = document.getElementById('stage3d');
-  const canvasEl = document.getElementById('canvas3d');
-  const loadEl   = document.getElementById('load3d');
-  const loadTxt  = loadEl.querySelector('span');
-  const fbEl     = document.getElementById('fb3d');
-  const fbTxt    = fbEl.querySelector('span');
-  const hintEl   = document.getElementById('hint3d');
-
-  function showFallback(html){
-    loadEl.classList.add('hide');
-    fbEl.classList.add('show');
-    if (html) fbTxt.innerHTML = html;
-    hintEl.classList.add('hide');
-  }
-
-  /* ---------- Load library (butuh internet) ---------- */
-  let THREE, OrbitControls, GLTFLoader;
-  try{
-    THREE = await import('three');
-    ({ OrbitControls } = await import('three/addons/controls/OrbitControls.js'));
-    ({ GLTFLoader }    = await import('three/addons/loaders/GLTFLoader.js'));
-  }catch(err){
-    showFallback('Library 3D gagal dimuat. Periksa koneksi internet lalu muat ulang halaman.');
-    return;
-  }
-
-  /* ---------- Renderer ---------- */
-  let renderer;
-  try{
-    renderer = new THREE.WebGLRenderer({
-      canvas: canvasEl,
-      antialias: true,
-      alpha: true,
-      powerPreference: 'high-performance'
-    });
-  }catch(e){
-    showFallback('Perangkat / browser ini tidak mendukung WebGL.');
-    return;
-  }
-  renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
-  renderer.outputColorSpace = THREE.SRGBColorSpace;
-  renderer.toneMapping = THREE.ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
-  renderer.domElement.style.touchAction = 'none';
-
-  /* ---------- Scene & Camera ---------- */
-  const scene  = new THREE.Scene();
-  const camera = new THREE.PerspectiveCamera(38, 1, 0.1, 100);
-  camera.position.set(CAM_START.x, CAM_START.y, CAM_START.z);
-
-  /* ---------- Lighting ---------- */
-  scene.add(new THREE.HemisphereLight(0xffffff, 0xcfeedd, 2.1));
-
-  const keyLight = new THREE.DirectionalLight(0xffffff, 2.6);
-  keyLight.position.set(3, 5, 4);
-  scene.add(keyLight);
-
-  const rimLight = new THREE.DirectionalLight(0x8ee5b3, 1.3);
-  rimLight.position.set(-4, 2, -3);
-  scene.add(rimLight);
-
-  const fillLight = new THREE.DirectionalLight(0xffe8c4, 0.9);
-  fillLight.position.set(-2, -2, 3);
-  scene.add(fillLight);
-
-  /* ---------- Kontrol ---------- */
-  const controls = new OrbitControls(camera, renderer.domElement);
-  controls.enableDamping   = true;
-  controls.dampingFactor   = 0.08;
-  controls.enablePan       = false;
-  controls.minDistance     = 1.4;
-  controls.maxDistance     = 8;
-  controls.minPolarAngle   = Math.PI * 0.10;
-  controls.maxPolarAngle   = Math.PI * 0.90;
-  controls.autoRotate      = AUTO_SPIN;
-  controls.autoRotateSpeed = SPIN_SPEED;
-  controls.target.set(0, 0, 0);
-
-  /* ---------- Bayangan lembut di bawah model ---------- */
-  function shadowTexture(){
-    const c = document.createElement('canvas');
-    c.width = c.height = 256;
-    const ctx = c.getContext('2d');
-    const g = ctx.createRadialGradient(128,128,0,128,128,128);
-    g.addColorStop(0,   'rgba(26,43,34,.30)');
-    g.addColorStop(.55, 'rgba(26,43,34,.12)');
-    g.addColorStop(1,   'rgba(26,43,34,0)');
-    ctx.fillStyle = g;
-    ctx.fillRect(0,0,256,256);
-    const t = new THREE.CanvasTexture(c);
-    t.colorSpace = THREE.SRGBColorSpace;
-    return t;
-  }
-  const shadowPlane = new THREE.Mesh(
-    new THREE.PlaneGeometry(2.9, 2.9),
-    new THREE.MeshBasicMaterial({
-      map: shadowTexture(),
-      transparent: true,
-      depthWrite: false
-    })
-  );
-  shadowPlane.rotation.x = -Math.PI / 2;
-  shadowPlane.position.y = -1.35;
-  scene.add(shadowPlane);
-
-  /* ---------- Pivot (wadah model) ---------- */
-  const pivot = new THREE.Group();
-  scene.add(pivot);
-
-  let mixer  = null;
-  let loaded = false;
-
-  /* ---------- Load GLB ---------- */
-  const loader = new GLTFLoader();
-  loader.load(
-    MODEL_URL,
-
-    (gltf) => {
-      const model = gltf.scene;
-
-      model.traverse(o => {
-        if (o.isMesh) {
-          o.frustumCulled = false;
-          if (o.material) o.material.needsUpdate = true;
-        }
-      });
-
-      pivot.add(model);
-
-      const box    = new THREE.Box3().setFromObject(model);
-      const size   = box.getSize(new THREE.Vector3());
-      const center = box.getCenter(new THREE.Vector3());
-
-      model.position.sub(center);
-
-      const maxDim = Math.max(size.x, size.y, size.z) || 1;
-      pivot.scale.setScalar(MODEL_SIZE / maxDim);
-
-      if (gltf.animations && gltf.animations.length) {
-        mixer = new THREE.AnimationMixer(model);
-        gltf.animations.forEach(clip => mixer.clipAction(clip).play());
-      }
-
-      loaded = true;
-      loadEl.classList.add('hide');
-      fbEl.classList.remove('show');
-    },
-
-    (evt) => {
-      if (evt && evt.total) {
-        const pct = Math.round((evt.loaded / evt.total) * 100);
-        loadTxt.textContent = `Memuat model… ${pct}%`;
-      }
-    },
-
-    () => {
-      showFallback(
-        'File <code>' + MODEL_URL + '</code> tidak ditemukan atau gagal dibaca. ' +
-        'Letakkan file GLB di folder yang sama dengan file HTML ini.'
-      );
-    }
-  );
-
-  /* ---------- Resize ---------- */
-  function resize(){
-    const w = stageEl.clientWidth  || 1;
-    const h = stageEl.clientHeight || 1;
-    renderer.setSize(w, h, false);
-    camera.aspect = w / h;
-    camera.updateProjectionMatrix();
-  }
-  resize();
-  if (window.ResizeObserver) new ResizeObserver(resize).observe(stageEl);
-  else window.addEventListener('resize', resize);
-
-  /* ---------- Loop render ---------- */
-  const clock = new THREE.Clock();
-
-  function homeActive(){
-    const el = document.getElementById('tab-home');
-    return el && el.classList.contains('active');
-  }
-
-  function animate(){
-    requestAnimationFrame(animate);
-    const dt = Math.min(clock.getDelta(), 0.05);
-
-    if (mixer) mixer.update(dt);
-
-    controls.update();
-
-    if (homeActive()) renderer.render(scene, camera);
-  }
-  animate();
-
-  /* ---------- Tombol reset ---------- */
-  document.getElementById('btnReset3D').addEventListener('click', () => {
-    camera.position.set(CAM_START.x, CAM_START.y, CAM_START.z);
-    controls.target.set(0, 0, 0);
-    pivot.rotation.y = 0;
-    controls.update();
-    hintEl.classList.remove('hide');
-    setTimeout(() => hintEl.classList.add('hide'), 2500);
-  });
-
-  controls.addEventListener('start', () => hintEl.classList.add('hide'));
-  setTimeout(() => hintEl.classList.add('hide'), 7000);
-})();
-</script>
-
 <script>
-document.querySelectorAll('.nav-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
-    btn.classList.add('active');
-    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-    document.getElementById(btn.dataset.tab).classList.add('active');
-  });
-});
+/* ============================================================
+   SPLASH SCREEN → DASHBOARD
+   ============================================================ */
 
-document.querySelectorAll('[data-target]').forEach(el => {
-  el.addEventListener('click', () => {
-    const scr = document.getElementById(el.dataset.target);
-    if (scr) scr.classList.add('active');
-  });
-});
+const DASHBOARD_URL = 'dashboard.html';   // <-- ganti kalau nama file beda
+const AUTO_REDIRECT = true;               // otomatis pindah?
+const AUTO_DELAY    = 5000;               // jeda otomatis (ms) — 5 detik
 
-document.querySelectorAll('[data-back]').forEach(btn => {
-  btn.addEventListener('click', () => {
-    btn.closest('.screen').classList.remove('active');
-  });
-});
+const splashEl  = document.getElementById('splash');
+const loadText  = document.getElementById('loadText');
 
-document.querySelectorAll('.chip').forEach(chip => {
-  chip.addEventListener('click', () => {
-    document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
-    chip.classList.add('active');
-  });
-});
-
-const insects = [
-  { icon:'fa-feather-pointed', name:'Kupu-Kupu Monarch', latin:'Danaus plexippus',        wingspan:'12 cm',  life:'2–6 mgg', accuracy:'98%' },
-  { icon:'fa-bug',             name:'Lebah Madu',         latin:'Apis mellifera',         wingspan:'2 cm',   life:'30–60 hr', accuracy:'96%' },
-  { icon:'fa-circle-dot',      name:'Kepik Merah',        latin:'Coccinella septempunctata', wingspan:'8 mm', life:'1–2 thn', accuracy:'97%' },
-  { icon:'fa-worm',            name:'Belalang Hijau',     latin:'Oxya chinensis',         wingspan:'5 cm',   life:'1 thn',   accuracy:'95%' },
-  { icon:'fa-bug',             name:'Nyamuk Aedes',       latin:'Aedes aegypti',          wingspan:'5 mm',   life:'2–4 mgg', accuracy:'94%' },
-  { icon:'fa-bug',             name:'Semut Hitam',        latin:'Camponotus',             wingspan:'3 mm',   life:'1–3 bln', accuracy:'93%' },
-  { icon:'fa-spider',          name:'Laba-laba Serigala', latin:'Lycosidae',              wingspan:'3 cm',   life:'1–2 thn', accuracy:'92%' },
-  { icon:'fa-spider',          name:'Kalajengking',       latin:'Scorpiones',             wingspan:'10 cm',  life:'2–6 thn', accuracy:'91%' },
-  { icon:'fa-worm',            name:'Ulat Daun',          latin:'Lepidoptera',            wingspan:'4 cm',   life:'2–4 mgg', accuracy:'90%' }
+/* --- Ganti teks loading bertahap biar hidup --- */
+const loadingSteps = [
+  'Menyiapkan aplikasi…',
+  'Memuat materi listrik…',
+  'Menyiapkan simulasi 3D…',
+  'Hampir siap…'
 ];
+let stepIdx = 0;
+const stepTimer = setInterval(() => {
+  stepIdx++;
+  if (stepIdx >= loadingSteps.length) {
+    clearInterval(stepTimer);
+    return;
+  }
+  loadText.textContent = loadingSteps[stepIdx];
+}, 1200);
 
-const creatureEl = document.getElementById('arCreature');
-const nameEl     = document.getElementById('arName');
-const latinEl    = document.getElementById('arLatin');
-const spanEl     = document.getElementById('arWingspan');
-const lifeEl     = document.getElementById('arLife');
-const accEl      = document.getElementById('arAccuracy');
-
-let currentIndex = 0;
-
-document.getElementById('btnCapture').addEventListener('click', () => {
-  let next;
-  do { next = Math.floor(Math.random() * insects.length); }
-  while (next === currentIndex && insects.length > 1);
-  currentIndex = next;
-
-  creatureEl.style.opacity = '0';
-  creatureEl.style.transform = 'scale(.6)';
-
+/* --- Fungsi pindah ke dashboard --- */
+let redirecting = false;
+function goToDashboard(){
+  if (redirecting) return;
+  redirecting = true;
+  clearInterval(stepTimer);
+  splashEl.classList.add('leaving');
   setTimeout(() => {
-    const d = insects[currentIndex];
-    creatureEl.innerHTML = `<i class="fa-solid ${d.icon}"></i>`;
-    nameEl.textContent  = d.name;
-    latinEl.textContent = d.latin;
-    spanEl.textContent  = d.wingspan;
-    lifeEl.textContent  = d.life;
-    accEl.textContent   = d.accuracy;
-    creatureEl.style.opacity = '1';
-    creatureEl.style.transform = 'scale(1)';
-  }, 230);
-});
+    window.location.href = DASHBOARD_URL;
+  }, 480);
+}
 
-const btnSave = document.getElementById('btnSave');
-btnSave.addEventListener('click', () => {
-  const original = btnSave.innerHTML;
-  btnSave.innerHTML = '<i class="fa-solid fa-check"></i>Tersimpan';
-  setTimeout(() => {
-    btnSave.innerHTML = original;
-  }, 1500);
-});
+/* --- Auto redirect --- */
+if (AUTO_REDIRECT) {
+  setTimeout(goToDashboard, AUTO_DELAY);
+}
 
-document.body.addEventListener('touchmove', e => {
-  if (e.touches.length > 1) e.preventDefault();
-}, { passive:false });
+/* --- Tap di mana saja = skip lebih cepat --- */
+document.addEventListener('click', (e) => {
+  if (e.target.closest('.credits')) return;
+  goToDashboard();
+}, { once:false });
 </script>
+
 </body>
 </html>
