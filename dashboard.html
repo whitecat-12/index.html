@@ -753,6 +753,113 @@ i{line-height:1;display:inline-flex}
   border-radius:12px;letter-spacing:.5px;
 }
 
+/* ============ COMING SOON ============ */
+.coming{
+  position:absolute;inset:0;z-index:80;
+  display:flex;flex-direction:column;
+  background:var(--bg);
+  transform:translateY(100%);
+  transition:transform .45s var(--ease), visibility .45s;
+  overflow:hidden;visibility:hidden;
+  will-change:transform;
+}
+.coming.active{transform:translateY(0);visibility:visible}
+.coming::before{
+  content:'';position:absolute;inset:0;pointer-events:none;
+  background-image:
+    radial-gradient(circle, var(--blue-soft) 36px, transparent 37px),
+    radial-gradient(circle, var(--purple-soft) 28px, transparent 29px),
+    radial-gradient(circle, var(--teal-soft) 32px, transparent 33px),
+    radial-gradient(circle, var(--amber-soft) 24px, transparent 25px),
+    radial-gradient(circle, var(--pink-soft) 26px, transparent 27px);
+  background-size:320px 320px,280px 280px,300px 300px,240px 240px,260px 260px;
+  background-position:-60px 5%,90% 12%,10% 55%,95% 70%,-50px 95%;
+  background-repeat:no-repeat;opacity:.7;
+}
+.coming-back{
+  position:relative;z-index:2;
+  width:46px;height:46px;flex-shrink:0;
+  margin:calc(var(--safe-top) + 14px) 0 0 20px;
+  border-radius:16px;display:grid;place-items:center;
+  background:var(--amber);border:3px solid #ffffff;color:#ffffff;font-size:16px;
+  box-shadow:0 4px 0 var(--amber-border);
+  transition:transform .2s var(--ease);
+}
+.coming-back:active{transform:translateY(3px);box-shadow:0 1px 0 var(--amber-border)}
+.coming-inner{
+  position:relative;z-index:2;flex:1;min-height:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:20px 30px calc(40px + var(--safe-bottom));
+  text-align:center;overflow-y:auto;scrollbar-width:none;
+}
+.coming-inner::-webkit-scrollbar{display:none}
+.coming-icon{
+  width:130px;height:130px;border-radius:50%;
+  display:grid;place-items:center;font-size:56px;color:#ffffff;
+  background:var(--blue);border:5px solid #ffffff;
+  box-shadow:0 8px 0 var(--blue-border), 0 0 0 5px var(--blue-soft);
+  animation:floaty 3.4s ease-in-out infinite;
+  margin-bottom:26px;
+  transition:background .3s, box-shadow .3s;
+}
+.coming-icon.purple{background:var(--purple);box-shadow:0 8px 0 var(--purple-border), 0 0 0 5px var(--purple-soft)}
+.coming-icon.teal{background:var(--teal);box-shadow:0 8px 0 var(--teal-border), 0 0 0 5px var(--teal-soft)}
+.coming-icon.amber{background:var(--amber);box-shadow:0 8px 0 var(--amber-border), 0 0 0 5px var(--amber-soft)}
+.coming-icon.pink{background:var(--pink);box-shadow:0 8px 0 var(--pink-border), 0 0 0 5px var(--pink-soft)}
+.coming-icon.indigo{background:var(--indigo);box-shadow:0 8px 0 var(--indigo-border), 0 0 0 5px var(--indigo-soft)}
+.coming-icon.orange{background:var(--orange);box-shadow:0 8px 0 var(--orange-border), 0 0 0 5px var(--orange-soft)}
+
+.coming-badge{
+  display:inline-flex;align-items:center;gap:8px;
+  padding:7px 16px;border-radius:999px;
+  font-size:10.5px;font-weight:800;letter-spacing:1.5px;
+  color:#ffffff;background:var(--pink);
+  border:2.5px solid #ffffff;box-shadow:0 3px 0 var(--pink-border);
+  margin-bottom:18px;
+}
+.coming-badge .pulse{
+  width:7px;height:7px;border-radius:50%;background:#ffffff;
+  animation:pulse 1.6s ease-in-out infinite;
+}
+.coming-title{
+  font-size:26px;font-weight:800;letter-spacing:-.6px;
+  line-height:1.2;color:var(--text);margin-bottom:10px;
+  max-width:320px;
+}
+.coming-sub{
+  font-size:13.5px;font-weight:600;color:var(--muted);
+  line-height:1.65;max-width:300px;margin-bottom:28px;
+}
+.coming-bar{
+  width:min(240px, 70%);height:12px;border-radius:999px;
+  background:var(--blue-soft);overflow:hidden;
+  border:2px solid var(--blue-border);
+  margin-bottom:12px;position:relative;
+}
+.coming-bar span{
+  position:absolute;top:0;bottom:0;border-radius:999px;
+  background:var(--blue);animation:loading 1.8s ease-in-out infinite;
+}
+@keyframes loading{
+  0%{left:-40%;width:40%}
+  50%{left:30%;width:50%}
+  100%{left:100%;width:40%}
+}
+.coming-note{
+  font-size:10.5px;font-weight:800;letter-spacing:1px;
+  color:var(--muted-2);text-transform:uppercase;
+  margin-bottom:34px;
+}
+.coming-btn{
+  height:56px;padding:0 26px;border-radius:16px;
+  display:inline-flex;align-items:center;justify-content:center;gap:10px;
+  font-size:13.5px;font-weight:800;color:#ffffff;
+  background:var(--blue);border:3px solid #ffffff;
+  box-shadow:0 4px 0 var(--blue-border);
+  transition:transform .18s var(--ease);
+}
+.coming-btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--blue-border)}
+
 /* ============ RESPONSIVE ============ */
 @media (max-width:360px){
   .menu-card{padding:14px 12px;min-height:124px}
@@ -761,6 +868,8 @@ i{line-height:1;display:inline-flex}
   .insect-name{font-size:17px}
   .stat b{font-size:13px}
   .formula .eq{font-size:18px}
+  .coming-title{font-size:22px}
+  .coming-icon{width:110px;height:110px;font-size:48px}
 }
 @media (min-width:520px){
   .card-grid{gap:16px}
@@ -774,6 +883,9 @@ i{line-height:1;display:inline-flex}
   .hero{padding:18px;margin-bottom:20px}
   .hero h2{font-size:17px}
   .stage3d{aspect-ratio:1/0.8}
+  .coming-icon{width:100px;height:100px;font-size:42px;margin-bottom:18px}
+  .coming-title{font-size:22px}
+  .coming-sub{margin-bottom:20px}
 }
 </style>
 </head>
@@ -832,11 +944,11 @@ i{line-height:1;display:inline-flex}
 
         <div class="hero">
           <i class="fa-solid fa-bolt hero-ico"></i>
-          <h2>Nikola Tesla </h2>
+          <h2>Nikola Tesla</h2>
           <p>"Saya tidak peduli mereka mencuri ide saya... Saya peduli mereka tidak punya ide sendiri."</p>
         </div>
 
-        <!-- ====== MENU KOMPAK (6 MATERI SATU GRID) ====== -->
+        <!-- ====== MENU KOMPAK ====== -->
         <div class="card-grid">
           <div class="menu-card" data-target="scr-alur">
             <div class="mc-icon"><i class="fa-solid fa-bolt"></i></div>
@@ -1477,6 +1589,30 @@ i{line-height:1;display:inline-flex}
     </div>
   </div>
 
+  <!-- ================= COMING SOON OVERLAY ================= -->
+  <div class="coming" id="comingSoon">
+    <button class="coming-back" id="comingBack" aria-label="Kembali">
+      <i class="fa-solid fa-chevron-left"></i>
+    </button>
+
+    <div class="coming-inner">
+      <div class="coming-icon" id="comingIcon"><i class="fa-solid fa-bolt"></i></div>
+
+      <div class="coming-badge"><span class="pulse"></span>SEGERA HADIR</div>
+
+      <h2 class="coming-title" id="comingTitle">Alur Listrik</h2>
+      <p class="coming-sub" id="comingSub">Materi ini sedang kami siapkan. Nantikan update berikutnya ya! ⚡</p>
+
+      <div class="coming-bar"><span></span></div>
+      <div class="coming-note">Materi sedang dikembangkan</div>
+
+      <button class="coming-btn" id="comingBtn">
+        <i class="fa-solid fa-house"></i>Kembali ke Beranda
+      </button>
+    </div>
+  </div>
+  <!-- ================= /COMING SOON ================= -->
+
 </div>
 
 <!-- ============================================================
@@ -1493,9 +1629,9 @@ i{line-height:1;display:inline-flex}
 
 <script type="module">
 /* ============================================================
-   KONFIGURASI MODEL 3D  —  UBAH DI SINI
+   KONFIGURASI MODEL 3D
    ============================================================ */
-const MODEL_URL  = 'listrik.glb';     // <-- taruh file GLB di folder yang sama
+const MODEL_URL  = 'listrik.glb';
 const AUTO_SPIN  = true;
 const SPIN_SPEED = 1.6;
 const MODEL_SIZE = 1.6;
@@ -1690,6 +1826,7 @@ const CAM_START  = { x:0, y:0.86, z:3.4 };
 </script>
 
 <script>
+/* ============ NAVIGASI TAB ============ */
 document.querySelectorAll('.nav-btn').forEach(btn => {
   btn.addEventListener('click', () => {
     document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
@@ -1699,19 +1836,71 @@ document.querySelectorAll('.nav-btn').forEach(btn => {
   });
 });
 
+/* ============ COMING SOON ============ */
+const comingEl    = document.getElementById('comingSoon');
+const comingIcon  = document.getElementById('comingIcon');
+const comingTitle = document.getElementById('comingTitle');
+const comingSub   = document.getElementById('comingSub');
+
+function openComing(card){
+  if (!card || !comingEl) return;
+
+  const title = card.querySelector('.mc-title')?.textContent?.trim() || 'Materi';
+  const iconEl = card.querySelector('.mc-icon');
+  const iconI  = iconEl?.querySelector('i');
+
+  // Ambil class ikon FontAwesome (contoh: "fa-bolt", "fa-battery-full", dll)
+  const iconClass = iconI
+    ? (Array.from(iconI.classList).find(c => c.startsWith('fa-')) || 'fa-bolt')
+    : 'fa-bolt';
+
+  // Ambil varian warna dari .mc-icon (contoh: "purple", "teal", "amber", dll)
+  const tone = iconEl
+    ? (Array.from(iconEl.classList).find(c => c !== 'mc-icon') || '')
+    : '';
+
+  comingTitle.textContent = title;
+  comingSub.textContent = 'Materi "' + title + '" sedang kami siapkan. Nantikan update berikutnya ya! ⚡';
+  comingIcon.className = 'coming-icon' + (tone ? ' ' + tone : '');
+  comingIcon.innerHTML = '<i class="fa-solid ' + iconClass + '"></i>';
+
+  comingEl.classList.add('active');
+}
+
+function closeComing(){
+  if (comingEl) comingEl.classList.remove('active');
+}
+
+document.getElementById('comingBack')?.addEventListener('click', closeComing);
+document.getElementById('comingBtn')?.addEventListener('click', closeComing);
+
+/* Tombol ESC untuk menutup */
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeComing();
+});
+
+/* ============ MENU CARD ============ */
 document.querySelectorAll('[data-target]').forEach(el => {
   el.addEventListener('click', () => {
+    // Menu di Beranda → tampilkan Coming Soon
+    if (el.closest('#tab-home')) {
+      openComing(el);
+      return;
+    }
+    // Menu di tab Materi → buka screen asli
     const scr = document.getElementById(el.dataset.target);
     if (scr) scr.classList.add('active');
   });
 });
 
+/* ============ TOMBOL BACK SCREEN ============ */
 document.querySelectorAll('[data-back]').forEach(btn => {
   btn.addEventListener('click', () => {
     btn.closest('.screen').classList.remove('active');
   });
 });
 
+/* ============ CHIPS FILTER ============ */
 document.querySelectorAll('.chip').forEach(chip => {
   chip.addEventListener('click', () => {
     document.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
@@ -1719,7 +1908,7 @@ document.querySelectorAll('.chip').forEach(chip => {
   });
 });
 
-/* Percobaan lab virtual */
+/* ============ LAB VIRTUAL ============ */
 const experiments = [
   { icon:'fa-arrow-right-arrow-left', name:'Rangkaian Seri',     latin:'Series Circuit Experiment',    volt:'12 V', current:'2 A',   accuracy:'98%' },
   { icon:'fa-code-branch',            name:'Rangkaian Paralel',  latin:'Parallel Circuit Experiment',  volt:'12 V', current:'3 A',   accuracy:'97%' },
@@ -1772,4 +1961,4 @@ document.body.addEventListener('touchmove', e => {
 }, { passive:false });
 </script>
 </body>
-</html>f
+</html>
