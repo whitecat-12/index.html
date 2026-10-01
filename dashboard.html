@@ -106,33 +106,40 @@ i{line-height:1;display:inline-flex}
 .header{
   position:relative;z-index:10;
   display:flex;align-items:center;justify-content:space-between;
-  padding:calc(var(--safe-top) + 16px) 20px 18px;
+  padding:calc(var(--safe-top) + 4px) 18px 10px;
   flex-shrink:0;
+  background:linear-gradient(180deg,
+    rgba(255,255,255,.9) 0%,
+    rgba(255,255,255,.55) 60%,
+    rgba(255,255,255,0) 100%);
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  border-bottom:1px solid rgba(147,197,253,.25);
 }
-.brand{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:11px}
 .brand-mark{
-  width:46px;height:46px;border-radius:16px;
+  width:42px;height:42px;border-radius:14px;
   display:grid;place-items:center;
-  background:var(--blue);color:#ffffff;font-size:19px;
-  border:3px solid #ffffff;
-  box-shadow:0 4px 0 var(--blue-border);
+  background:var(--blue);color:#ffffff;font-size:18px;
+  border:2.5px solid #ffffff;
+  box-shadow:0 3px 0 var(--blue-border);
   transform:rotate(-4deg);
 }
-.brand-name{font-size:20px;font-weight:800;letter-spacing:-.5px;line-height:1.1;color:var(--text)}
+.brand-name{font-size:18.5px;font-weight:800;letter-spacing:-.5px;line-height:1.05;color:var(--text)}
 .brand-name b{color:var(--blue);font-weight:800}
 .brand-sub{
-  font-size:9.5px;color:var(--blue);
-  font-weight:800;letter-spacing:1.5px;margin-top:3px;
+  font-size:9px;color:var(--blue);
+  font-weight:800;letter-spacing:1.4px;margin-top:4px;
   background:var(--blue-soft);
-  display:inline-block;padding:2px 8px;border-radius:6px;
+  display:inline-block;padding:2px 7px;border-radius:6px;
 }
 .icon-btn{
   position:relative;
-  width:46px;height:46px;border-radius:16px;
+  width:42px;height:42px;border-radius:14px;
   display:grid;place-items:center;
   background:var(--amber-soft);
   border:2.5px solid var(--amber-border);
-  color:var(--amber);font-size:17px;
+  color:var(--amber);font-size:16px;
   transition:transform .2s var(--ease);
 }
 .icon-btn:active{transform:scale(.9)}
@@ -1849,12 +1856,10 @@ function openComing(card){
   const iconEl = card.querySelector('.mc-icon');
   const iconI  = iconEl?.querySelector('i');
 
-  // Ambil class ikon FontAwesome (contoh: "fa-bolt", "fa-battery-full", dll)
   const iconClass = iconI
     ? (Array.from(iconI.classList).find(c => c.startsWith('fa-')) || 'fa-bolt')
     : 'fa-bolt';
 
-  // Ambil varian warna dari .mc-icon (contoh: "purple", "teal", "amber", dll)
   const tone = iconEl
     ? (Array.from(iconEl.classList).find(c => c !== 'mc-icon') || '')
     : '';
@@ -1874,7 +1879,6 @@ function closeComing(){
 document.getElementById('comingBack')?.addEventListener('click', closeComing);
 document.getElementById('comingBtn')?.addEventListener('click', closeComing);
 
-/* Tombol ESC untuk menutup */
 document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeComing();
 });
@@ -1882,12 +1886,10 @@ document.addEventListener('keydown', e => {
 /* ============ MENU CARD ============ */
 document.querySelectorAll('[data-target]').forEach(el => {
   el.addEventListener('click', () => {
-    // Menu di Beranda → tampilkan Coming Soon
     if (el.closest('#tab-home')) {
       openComing(el);
       return;
     }
-    // Menu di tab Materi → buka screen asli
     const scr = document.getElementById(el.dataset.target);
     if (scr) scr.classList.add('active');
   });
